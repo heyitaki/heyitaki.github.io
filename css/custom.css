@@ -5,7 +5,7 @@ body {
 .jumbotron-header {
     background-image: url("../img/background.jpg");
     background-attachment: fixed;
-    margin-top: 15px;
+    margin-top: 20px;
     color: white;
     text-align: center;
     font-family: montserrat;
@@ -25,7 +25,6 @@ body {
 	height: 200px;
 	vertical-align: middle;
 	text-align: left;
-	text-shadow: -.5px -.5px 0 #000, .5px -.5px 0 #000, -.5px .5px 0 #000, .5px .5px 0 #000;	
 }
 
 .nav-tabs > li > a:hover {
