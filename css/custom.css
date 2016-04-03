@@ -1,32 +1,36 @@
 body {
-  background-color: #eee;
+    background-color: #eee;
+    font-family: montserrat;
 }
 
 .jumbotron-header {
     background-image: url("../img/background.jpg");
     background-attachment: fixed;
     margin-top: 20px;
+    border-radius: 3px !important;
+
     color: white;
     text-align: center;
-    font-family: montserrat;
-}
-
-.jumbotron-body {
-    background: white;
-    text-align: left;
 }
 
 .img-circle {
-	border: 4px solid #fff;
+    border: 4px solid #fff;
 }
 
 .vertical-center {
-	display: table-cell;
-	height: 200px;
-	vertical-align: middle;
-	text-align: left;
+    display: table-cell;
+    height: 200px;
+    vertical-align: middle;
+    text-align: left;
+} 
+
+.tab-content {
+    background-color: #fff;
+    border: 1px #ddd solid;
+    border-top: 0px;
+    padding: 25px;
 }
 
 .nav-tabs > li > a:hover {
-  background-color: #ddd;
+    background-color: #ddd;
 }
