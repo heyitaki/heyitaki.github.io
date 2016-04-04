@@ -7,3 +7,9 @@ $('.nav-tabs a').click(function (e) {
 	window.location.hash = this.hash;
 	$('html,body').scrollTop(scrollmem);
 });
+
+$('.list-group').on('click','> a', function(e) {
+   var $this = $(this);
+    $('.list-group').find('.active').removeClass('active');
+    $this.addClass('active');
+});

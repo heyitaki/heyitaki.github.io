@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Akshath Sivaprasad</title>
+	<link rel="icon" href="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/256/money_bag.png">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/custom.css" rel="stylesheet">
 	<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
@@ -35,17 +36,73 @@
 		<div class="tab-content">
 			<div id="about" class="tab-pane fade in active">
 				<h2>Hi everyone! <small class="text-muted">I'm Akshath.</small></h2>
-				<p>I'm currently a sophomore at UC Berkeley.</p>
-				<p>I love coding when I can see a tangible end result. I like to direct my energy into competitive events such as hackathons and online contests such as USACO and Google Code Jam. In addition, I've started to create my own <a href="http://akshaths.github.io/index.html#projects">personal projects</a> over the past year.</p> 
-				<p>Feel free to <a href="http://akshaths.github.io/index.html#contact">contact</a> me!</p>
+				<p>I'm currently a sophomore at UC Berkeley majoring in Electrical Engineering and Computer Science (EECS). I'm interested in computer security and machine learning. I have explored both fields through pratical application in internships at Portland State University, and more recently, Apptio Inc. </p>
+				<p>I love coding when I can see a tangible end result. I like to direct my energy into competitive events such as hackathons and online contests such as USACO and Google Code Jam. In addition, I've started to create my own <a href="http://akshaths.github.io/index.html#projects">personal projects</a> over the past year, usually pertaining to some other interest I have, such as my Wordament solver project.</p> 
+				<p>Feel free to <a href="http://akshaths.github.io/index.html#contact">contact</a> me or view my <a href="http://bit.ly/1UBVdmC">resume</a>!</p>
 			</div>
 			<div id="blog" class="tab-pane fade">
 				<h2>I write sometimes.</h2>
-				<p>Wordamentsolver post.</p>
+				<div class="row">
+					<div class="col-md-8 col-lg-9">
+						<div class="well">
+							HI
+						</div>
+					</div>
+					<div class="col-md-4 col-lg-3">
+						<div class="list-group">
+							<a href="#solver" class="list-group-item active">WordamentSolver</a>
+							<a href="#" class="list-group-item">plz</a>
+							<a href="#" class="list-group-item">work</a>
+							<a href="#" class="list-group-item">im</a>
+							<a href="#" class="list-group-item">sad</a>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div id="projects" class="tab-pane fade">
 				<h2>I like to code.</h2>
-				<p>Put summaries here including wordament solver and this website.</p>
+				<h3>Personal projects</h3>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-sm-8">
+									<h4>Website <small class="text-muted">HTML/CSS/Twitter Bootstrap</small></h4>
+								</div>
+								<div class="col-sm-4 hidden-xs">
+									<h4 align="right"><small>View <a href="http://github.com/akshaths/WordamentPlayer">source code</a></small></h4>
+								</div>
+							</div>
+						</div>
+						<div class="panel-body">
+							This site was a project! I coded this site from scratch using the Twitter Bootstrap framework. 
+							<div class="row">
+								<div class="col-xs-12 visible-xs-block">
+									<p><small>View <a href="http://github.com/akshaths/WordamentPlayer">source code</a></small></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-sm-8">
+									<h4>WordamentPlayer <small class="text-muted">Java/JNA</small></h4>
+								</div>
+								<div class="col-sm-4 hidden-xs">
+									<h4 align="right"><small>View <a href="http://github.com/akshaths/WordamentPlayer">source code</a></small></h4>
+								</div>
+							</div>
+						</div>
+						<div class="panel-body">
+							WordamentPlayer is an autonomous bot that will play the PC version of the online word game, Wordament. Wordament is similar to the classic game Boggle, in which players are given a 4x4 board in which they string together adjacent tiles to form words. WordamentPlayer screenshots the game board, performs optical character recognition (OCR) on each tile, solves the board, and then manipulates the mouse cursor to input the found words into the game board. Screenshotting and moving the cursor is accomplished with Java AWT Robot and JNA, while the OCR is performed using Tesseract and the Tess4J wrapper. By examining certain pixels on the board, WordamentPlayer can detect the game state (e.g. during a round, scoring between rounds, guessing penalties), and can also detect if a swiped word is correct/incorrect (may occur because Wordament's dictionary is different from the open-source one I used).
+							<div class="row">
+								<div class="col-xs-12 visible-xs-block">
+									<p><small>View <a href="http://github.com/akshaths/WordamentPlayer">source code</a></small></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				<h3>Class projects</h3>
 			</div>
 			<div id="contact" class="tab-pane fade">
 				<h2>Get in touch.</h2>

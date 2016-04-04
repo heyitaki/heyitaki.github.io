@@ -1,6 +1,9 @@
+* {
+    font-family: montserrat;
+}
+
 body {
     background-color: #eee;
-    font-family: montserrat;
 }
 
 .jumbotron-header {
@@ -33,4 +36,9 @@ body {
 
 .nav-tabs > li > a:hover {
     background-color: #ddd;
+}
+
+.list-group panel.active {
+  background-color: #fff;
+  border-color: #aed248;
 }
