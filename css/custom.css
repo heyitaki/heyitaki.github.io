@@ -31,14 +31,32 @@ body {
     background-color: #fff;
     border: 1px #ddd solid;
     border-top: 0px;
-    padding: 25px;
+    padding: 30px;
+}
+
+.tab-content-full {
+    background-color: #fff;
+    border: 1px #ddd solid;
+    padding: 30px;
 }
 
 .nav-tabs > li > a:hover {
     background-color: #ddd;
 }
 
-.list-group panel.active {
-  background-color: #fff;
-  border-color: #aed248;
+.nav-pills > li > a:hover {
+    background-color: #ddd;
+    border-radius: 1px;
+}
+
+.nav-pills > .active > a {
+    background-color: #337ab7;
+    border-radius: 1px;
+    opacity: .65;
+}
+
+.nav-pills > .disabled > a {
+    background-color: #fff !important;
+    color: #337ab7 !important;
+    opacity: .65 !important;
 }

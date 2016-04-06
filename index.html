@@ -35,74 +35,112 @@
 
 		<div class="tab-content">
 			<div id="about" class="tab-pane fade in active">
-				<h2>Hi everyone! <small class="text-muted">I'm Akshath.</small></h2>
+				<h2>Hi everyone! <small>I'm Akshath.</small></h2>
 				<p>I'm currently a sophomore at UC Berkeley majoring in Electrical Engineering and Computer Science (EECS). I'm interested in computer security and machine learning. I have explored both fields through pratical application in internships at Portland State University, and more recently, Apptio Inc. </p>
 				<p>I love coding when I can see a tangible end result. I like to direct my energy into competitive events such as hackathons and online contests such as USACO and Google Code Jam. In addition, I've started to create my own <a href="http://akshaths.github.io/index.html#projects">personal projects</a> over the past year, usually pertaining to some other interest I have, such as my Wordament solver project.</p> 
-				<p>Feel free to <a href="http://akshaths.github.io/index.html#contact">contact</a> me or view my <a href="http://bit.ly/1UBVdmC">resume</a>!</p>
+				<p>Feel free to <a href="http://akshaths.github.io/index.html#contact">contact me</a> or view my <a href="../resume.pdf" download="../resume.pdf">resume</a>!</p>
 			</div>
 			<div id="blog" class="tab-pane fade">
 				<h2>Sometimes I write.</h2>
 				<div class="row">
 					<div class="col-md-8 col-lg-9">
-						<div class="well">
-							HI
+						<div class="tab-content tab-content-full">
+							<div id="solver" class="tab-pane fade in active">
+								<p>HI</p>
+							</div>
 						</div>
 					</div>
 					<div class="col-md-4 col-lg-3">
-						<div class="list-group">
-							<a href="#solver" class="list-group-item active">WordamentSolver</a>
-							<a href="#" class="list-group-item">item1</a>
-							<a href="#" class="list-group-item">item2</a>
-							<a href="#" class="list-group-item">item3</a>
-							<a href="#" class="list-group-item">item4</a>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4>Past Articles</h4>
+							</div>
+							<ul class="nav nav-pills nav-stacked">
+								<li class="active"><a href="#solver" data-toggle="pill">WordamentPlayer</a></li>
+								<li class="disabled"><a href="#" data-toggle="pill">Future blog post</a></li>
+								<li class="disabled"><a href="#" data-toggle="pill">Future blog post</a></li>
+								<li class="disabled"><a href="#" data-toggle="pill">Future blog post</a></li>
+							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div id="projects" class="tab-pane fade">
-				<h2>I like to code.</h2>
-				<h3>Personal projects</h3>
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<div class="row">
-								<div class="col-sm-8">
-									<h4>Website <small class="text-muted">HTML/CSS/Twitter Bootstrap</small></h4>
-								</div>
-								<div class="col-sm-4 hidden-xs">
-									<h4 align="right"><small>View <a href="http://github.com/akshaths/WordamentPlayer">source code</a></small></h4>
-								</div>
+				<h2>I like to code. <small>Even when I'm not forced to.</small></h2>
+				<div class="page-header">
+					<h3>Personal projects</h3>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-sm-8">
+								<h4>Website <small>HTML/CSS/Twitter Bootstrap</small></h4>
 							</div>
-						</div>
-						<div class="panel-body">
-							This site was a project! I coded this site from scratch using the Twitter Bootstrap framework. 
-							<div class="row">
-								<div class="col-xs-12 visible-xs-block">
-									<p><small>View <a href="http://github.com/akshaths/WordamentPlayer">source code</a></small></p>
-								</div>
+							<div class="col-sm-4 hidden-xs">
+								<h4 align="right"><small>View <a href="http://github.com/akshaths/akshaths.github.io">source code</a></small></h4>
 							</div>
 						</div>
 					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<div class="row">
-								<div class="col-sm-8">
-									<h4>WordamentPlayer <small class="text-muted">Java/JNA</small></h4>
-								</div>
-								<div class="col-sm-4 hidden-xs">
-									<h4 align="right"><small>View <a href="http://github.com/akshaths/WordamentPlayer">source code</a></small></h4>
-								</div>
-							</div>
-						</div>
-						<div class="panel-body">
-							WordamentPlayer is an autonomous bot that will play the PC version of the online word game, Wordament. Wordament is similar to the classic game Boggle, in which players are given a 4x4 board in which they string together adjacent tiles to form words. WordamentPlayer screenshots the game board, performs optical character recognition (OCR) on each tile, solves the board, and then manipulates the mouse cursor to input the found words into the game board. Screenshotting and moving the cursor is accomplished with Java AWT Robot and JNA, while the OCR is performed using Tesseract and the Tess4J wrapper. By examining certain pixels on the board, WordamentPlayer can detect the game state (e.g. during a round, scoring between rounds, guessing penalties), and can also detect if a swiped word is correct/incorrect (may occur because Wordament's dictionary is different from the open-source one I used).
-							<div class="row">
-								<div class="col-xs-12 visible-xs-block">
-									<p><small>View <a href="http://github.com/akshaths/WordamentPlayer">source code</a></small></p>
-								</div>
+					<div class="panel-body">
+						This site was a project itself! I coded this site from scratch using the Twitter Bootstrap framework. 
+						<div class="row">
+							<div class="col-xs-12 visible-xs-block">
+								<p><small>View <a href="http://github.com/akshaths/akshaths.github.io">source code</a></small></p>
 							</div>
 						</div>
 					</div>
-				<h3>Class projects</h3>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-sm-8">
+								<h4>WordamentPlayer <small>Java/JNA</small></h4>
+							</div>
+							<div class="col-sm-4 hidden-xs">
+								<h4 align="right"><small>View <a href="http://github.com/akshaths/WordamentPlayer">source code</a></small></h4>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body">
+						WordamentPlayer is an autonomous bot that will play the PC version of the online word game, Wordament. Wordament is similar to the classic game Boggle, in which players are given a 4x4 board in which they string together adjacent tiles to form words. WordamentPlayer screenshots the game board, performs optical character recognition (OCR) on each tile, solves the board, and then manipulates the mouse cursor to input the found words into the game board. Screenshotting and moving the cursor is accomplished with Java AWT Robot and JNA, while the OCR is performed using Tesseract and the Tess4J wrapper. By examining certain pixels on the board, WordamentPlayer can detect the game state (e.g. during a round, scoring between rounds, guessing penalties), and can also detect if a swiped word is correct/incorrect (may occur because Wordament's dictionary is different from the open-source one I used).
+						<div class="row">
+							<div class="col-xs-12 visible-xs-block">
+								<p><small>View <a href="http://github.com/akshaths/WordamentPlayer">source code</a></small></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="page-header">
+					<h3>Class projects</h3>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-sm-8">
+								<h4>CS61B <small>Data Structures</small></h4>
+							</div>
+							<div class="col-sm-4 hidden-xs">
+								<h4 align="right"><small>View <a href="http://cs61b.ug/sp15/">course page</a></small></h4>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-4">
+								<h4>NGordNet <small>Java</small></h4>
+								<p>Used a directed graph and Google's NGrams dataset to create a visual representation of the relative popularity of words over times and a graph of hyponyms/hypernyms of any given word.</p>
+							</div>
+							<div class="col-sm-4">
+								<h4>Gitlet <small>Java/SHA-256/GZip</small></h4> 
+								<p>A basic, lightweight version control system implemented from scratch. Includes features such as merge, interactive rebase, remote push/pull etc. Uses the same logic as Git, a popular version control system.</p>
+							</div>
+							<div class="col-sm-4">
+								<h4>Tries <small>Java</small></h4>
+								<p>Implemented a ternary search trie (TST). Used the TST as a backbone for 1) an autocomplete feature, which would take in a prefix and output appropriate words by popularity, 2) a spellchecker which used an algorithm computing Levenshtein distance to return the most likely alternatives for mispelled words.</p>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div id="contact" class="tab-pane fade">
 				<h2>Get in touch.</h2>
