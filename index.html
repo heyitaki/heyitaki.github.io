@@ -38,15 +38,73 @@
 				<h2>Hi everyone! <small>I'm Akshath.</small></h2>
 				<p>I'm currently a sophomore at UC Berkeley majoring in Electrical Engineering and Computer Science (EECS). I'm interested in computer security and machine learning. I have explored both fields through pratical application in internships at Portland State University, and more recently, Apptio Inc. </p>
 				<p>I love coding when I can see a tangible end result. I like to direct my energy into competitive events such as hackathons and online contests such as USACO and Google Code Jam. In addition, I've started to create my own <a href="http://akshaths.github.io/index.html#projects">personal projects</a> over the past year, usually pertaining to some other interest I have, such as my Wordament solver project.</p> 
-				<p>Feel free to <a href="http://akshaths.github.io/index.html#contact">contact me</a> or view my <a href="../resume.pdf" download="../resume.pdf">resume</a>!</p>
+				<p>Feel free to <a href="http://akshaths.github.io/index.html#contact">contact me</a> or view my <a href="https://github.com/akshaths/akshaths.github.io/blob/master/resume.pdf">resume</a>!</p>
 			</div>
 			<div id="blog" class="tab-pane fade">
-				<h2>Sometimes I write.</h2>
+				<h2>Sometimes I write.</h2> 
+				<div class="row"><div class"col-sm-12"><br></div></div>
 				<div class="row">
 					<div class="col-md-8 col-lg-9">
 						<div class="tab-content tab-content-full">
 							<div id="solver" class="tab-pane fade in active">
-								<p>HI</p>
+								<div class="row">
+									<div class="col-sm-8 hidden-xs">
+										<h3 align="left">WordamentPlayer <small>Behind the scenes!</small></h3>
+									</div>
+									<div class="col-sm-4 hidden-xs">
+										<h3 align="right"><small>View <a href="http://github.com/akshaths/WordamentPlayer">source code</a></small></h3>
+									</div>
+									<div class="col-xs-12 visible-xs-block">
+										<h3><a href="http://github.com/akshaths/WordamentPlayer">WordamentPlayer</a></h3>
+									</div>
+								</div>
+								<p>The purpose of this project was to write an autonomous bot to play Wordament, an online version of Boggle. Below is a quick demo of the finished product. The tile swiping starts after 10 seconds due to precalc time.</p>
+								<div style="margin: 0px auto; text-align: center;">
+									<iframe class="embed-responsive-item" width="245" height="365" src="https://www.youtube.com/embed/qaOtIU-mFYQ?autoplay=1&loop=1" frameborder="0" allowfullscreen></iframe>
+								</div><br>
+								<p>First, let's look at how words are formed on the board. Note that from any tile, we can move to an adjacent tile (i.e. horizontal, vertical, or diagonal), as shown below. Tiles cannot be used twice in the same string.</p>
+								<div class="row">
+									<div class="col-lg-6 col-md-12" align="center">
+										<figure>
+											<img src="img/howtoplay1.png">
+											<figcaption align="center">P - A - T - H - S</figcaption>
+										</figure>
+									</div>
+									<div class="col-lg-6 col-md-12" align="center">
+										<figure>
+											<img src="img/howtoplay2.png">
+											<figcaption align="center">C - A - R - A - T - S</figcaption>
+										</figure>
+									</div>
+								</div>
+								<h4><br>Part 1: Solver</h4>
+								<p>I started with the back end of this project: creating a solver that would return all possible words given a 4x4 2d char array.</p>
+								<p>To find all words in the char array, my solution was to DFS the board to enumerate all playable strings, and then compare each string to a dictionary of accepted words. Immediately, we can see that comparing every possible string to every word in the dictionary is infeasible due to time constraints. Our first problem is deciding which data structure to store the dictionary of allowed words on. The naive solution would be to use an ArrayList of strings.</p> 
+								<p>A faster, claner solution is to use a <a href="https://en.wikipedia.org/wiki/Trie">trie</a>, which is essentially a binary search tree with more than 2 children per node. In this case, each node would have up to 26 children (one for each letter of the alphabet). We can begin implementing a trie by defining a node. Each node must have a character/letter that it represents, as well as a marker to indicate whether or not it signals the termination of a word.</p>
+								<pre><code>
+									class Node {
+									    public boolean isFullWord;
+									    public HashMap<Character, Node> children;
+									    public Node(boolean isFullWord) {
+									        this.isFullWord = isFullWord;
+									        children = new HashMap<Character, Node>();
+									    }
+									}
+								</code></pre>
+								<p>Our trie will start from a root node. As we add words from the dictionary into the trie one by one we will build off of this node.</p>
+								<pre><code>
+									 
+								</code></pre>
+								<p>I used the following array (same board from examples above) to test my solver code.</p>
+								<pre><code>
+									board = new char[][] {	
+										{'c', 's', 'd', 'a'},
+										{'h', 't', 'r', 'c'},
+										{'s', 'a', 's', 'e'},
+										{'r', 'p', 'p', 'k'}};
+								</code></pre>
+								<h4>Part 2: Board Constructor</h4>
+								<h4>Part 3: Cursor Controller</h4>
 							</div>
 						</div>
 					</div>
@@ -56,7 +114,7 @@
 								<h4>Past Articles</h4>
 							</div>
 							<ul class="nav nav-pills nav-stacked">
-								<li class="active"><a href="#solver" data-toggle="pill">WordamentPlayer</a></li>
+								<li class="active"><a href="#solver" data-toggle="pill">WordamentPlayer BTS</a></li>
 								<li class="disabled"><a href="#" data-toggle="pill">Future blog post</a></li>
 								<li class="disabled"><a href="#" data-toggle="pill">Future blog post</a></li>
 								<li class="disabled"><a href="#" data-toggle="pill">Future blog post</a></li>
