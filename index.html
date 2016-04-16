@@ -8,6 +8,7 @@
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/custom.css" rel="stylesheet">
 	<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	<link href="styles/custom-style.css" rel="stylesheet">
 	<script src="js/respond.js"></script>
 </head>
 <body>
@@ -60,7 +61,9 @@
 								</div>
 								<p>The purpose of this project was to write an autonomous bot to play Wordament, an online version of Boggle. Below is a quick demo of the finished product. The tile swiping starts after 10 seconds due to precalc time.</p>
 								<div style="margin: 0px auto; text-align: center;">
-									<iframe class="embed-responsive-item" width="245" height="365" src="https://www.youtube.com/embed/qaOtIU-mFYQ?autoplay=1&loop=1" frameborder="0" allowfullscreen></iframe>
+									<div class="embed-responsive embed-responsive-16by9">
+										<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/qaOtIU-mFYQ" frameborder="0" allowfullscreen></iframe>
+									</div>
 								</div><br>
 								<p>First, let's look at how words are formed on the board. Note that from any tile, we can move to an adjacent tile (i.e. horizontal, vertical, or diagonal), as shown below. Tiles cannot be used twice in the same string.</p>
 								<div class="row">
@@ -77,34 +80,303 @@
 										</figure>
 									</div>
 								</div>
-								<h4><br>Part 1: Solver</h4>
+								<h4><br>Part 1: Dictionary Trie</h4>
 								<p>I started with the back end of this project: creating a solver that would return all possible words given a 4x4 2d char array.</p>
 								<p>To find all words in the char array, my solution was to DFS the board to enumerate all playable strings, and then compare each string to a dictionary of accepted words. Immediately, we can see that comparing every possible string to every word in the dictionary is infeasible due to time constraints. Our first problem is deciding which data structure to store the dictionary of allowed words on. The naive solution would be to use an ArrayList of strings.</p> 
-								<p>A faster, claner solution is to use a <a href="https://en.wikipedia.org/wiki/Trie">trie</a>, which is essentially a binary search tree with more than 2 children per node. In this case, each node would have up to 26 children (one for each letter of the alphabet). We can begin implementing a trie by defining a node. Each node must have a character/letter that it represents, as well as a marker to indicate whether or not it signals the termination of a word.</p>
-								<pre><code>
+								<p>A faster, cleaner solution is to use a <a href="https://en.wikipedia.org/wiki/Trie">trie</a>, which is essentially a binary search tree with more than 2 children per node. In this case, each node would have up to 26 children (one for each letter of the alphabet). We can begin implementing a trie by defining a node. Each node must have a character/letter that it represents, as well as a marker to indicate whether or not it signals the termination of a word.</p>
+								<pre><code class="java">
 									class Node {
-									    public boolean isFullWord;
-									    public HashMap<Character, Node> children;
-									    public Node(boolean isFullWord) {
-									        this.isFullWord = isFullWord;
-									        children = new HashMap<Character, Node>();
-									    }
+										public boolean isFullWord;
+										public HashMap&lt;Character, Node&gt; children;
+										public Node (boolean isFullWord) {
+											this.isFullWord = isFullWord;
+											children = new HashMap&lt;Character, Node&gt;();
+										}
 									}
 								</code></pre>
-								<p>Our trie will start from a root node. As we add words from the dictionary into the trie one by one we will build off of this node.</p>
-								<pre><code>
-									 
+								<p>Our trie will start from a root node, which we will asuume has been globally defined. As we add words from the dictionary into the trie one by one we will build off of this node. Our trie needs two methods--one to put a string into the trie, and one to see if a given string exists in the trie. We will tackle adding words first.</p>
+								<pre><code class="java">
+									public void insert (String word) {
+										Node curr = root;
+										Node child;
+										boolean isFullWord = false;
+										for(int i = 0; i < word.length(); i++) {
+											char letter = word.charAt(i);
+											if(i == word.length() - 1) {
+												isFullWord = true;
+											}
+											if(curr.children.containsKey(letter)) {
+												curr = curr.children.get(letter);
+												if (isFullWord == true) {
+													curr.isFullWord = isFullWord;
+												}
+											} else {
+												child = new Node(isFullWord);
+												curr.children.put(letter, child);
+												curr = curr.children.get(letter);
+											}
+										}
+									}
 								</code></pre>
-								<p>I used the following array (same board from examples above) to test my solver code.</p>
+								<p>As we add a word character by character, we check to see if the next character is a child of the current character. If it is, we move to that node and repeat the process with the following character. If it isn't we create a child node containing that character, and then move to it and continue as before. Once we reach the end of the word we are adding, we need to insert a marker indicating that the node represents a terminator, so that when we lookup a word, we know where to stop in our trie. We do this by setting isFullWord to true.</p>
+								<p>To complete our trie's functionality, we need to implement a method to lookup if a given prefix exists within a trie and if it is a full word.</p>
 								<pre><code>
-									board = new char[][] {	
-										{'c', 's', 'd', 'a'},
-										{'h', 't', 'r', 'c'},
-										{'s', 'a', 's', 'e'},
-										{'r', 'p', 'p', 'k'}};
+									public int find(String input) {
+										Node curr = root;
+										for(int i = 0; i < input.length(); i++) {
+											char letter = input.charAt(i);
+											if(curr.children.containsKey(letter)) {
+												curr = curr.children.get(letter);
+											} else {
+												return -1;
+											}
+											if(i == input.length() - 1 && curr.isFullWord) {
+												return 1;
+											}
+										}
+										return 0;
+									}
 								</code></pre>
-								<h4>Part 2: Board Constructor</h4>
-								<h4>Part 3: Cursor Controller</h4>
+								<p>This function will return 1 if input is a full word and exists within our trie. If input is not contained in our trie, find() will return -1. If input exists in the trie, but is not a full word, find() will return 0. With these two methods, we can populate our trie with the words from the <a href="http://wordlist.aspell.net/">game dictionary</a> in preparation for the next step.</p>
+								<pre><code>
+									public WordamentTrie(ArrayList&lt;String&gt; words) {
+										root = new Node('\0', false);
+										for(int i = 0; i < words.size(); i++) {
+											insert(words.get(i));
+										}
+									}
+								</code></pre>
+								<p>We must make root a global variable in order to maintain our trie. From here, we can insert every word from the dictionary into the trie. Our find method will come in handy in the next part.</p>
+
+								<h4><br>Part 2: Solver</h4>
+								<p>For this part, we will assume we are given a 2d char array. Our objective is to find and list the highest-scoring words from the 2d array. The easiest way to do this is to iterate through every possible string in the board; in this case, I used <a href="https://en.wikipedia.org/wiki/Depth-first_search">DFS</a>. While it may seem like there are too many permuatations, the fact that we can stop building on a prefix once find() returns -1 cuts down on the total number of considered permutations drastically.</p>
+								<p>We can start by writing a couple of helper functions to make writing the main DFS method easier. We can write a method which returns the neighbors of a given coordinate. In order to return valid coordinates (i.e. nonnegative and within board boundaries), we can write another helper function:</p>
+								<pre><code>
+									private boolean isValidCoor(Coordinate pt) {
+										if(0 <= pt.x && pt.x < BOARD_HEIGHT && 0 <= pt.y && pt.y < BOARD_WIDTH) {
+											return true;
+										}
+										return false;
+									}
+								</code></pre>
+								<p>Now we can write a helper function to return all valid neighbors of a given Coordinate:</p>
+								<pre><code>
+									private ArrayList&lt;Coordinate&gt; getNeighbors(Coordinate pt) {
+										ArrayList&lt;Coordinate&gt; neighbors = new ArrayList&lt;Coordinate&gt;();
+										Coordinate neighbor;
+										for(int i = -1; i <= 1; i++) {
+											for(int j = -1; j <= 1; j++) {
+												neighbor = new Coordinate(pt.x + i, pt.y + j);
+												if(isValidCoor(neighbor) && !(i == 0 && j == 0)) {
+													neighbors.add(neighbor);
+												}
+											}
+										}
+										return neighbors;
+									}
+								</code></pre>
+								<p>We simply iterate over a 3x3 array centered around the input Coordinate and filter out the invalid neighbors and the input Coordinate itself, because a Coordinate cannot be its own neighbor.</p>
+								<p>In order to DFS our board, we must iterate over every tile, one by one, and run the DFS algorithm. At the start of the algorithm at each tile, we should pass in the current Coordinate so that we may compute and visit its neighbors. In addition, we should pass in a StringBuilder object, in order to build the prefixes more easily.</p>
+								<pre><code>
+									private void enumerateWords () {
+										StringBuilder prefix;
+										Coordinate start;
+										for (int i = 0; i < BOARD_HEIGHT; i++) {
+											for (int j = 0; j < BOARD_WIDTH; j++) {
+												prefix = new StringBuilder();
+												start = new Coordinate(i, j);
+												dfsTraversal(prefix, start);
+											}
+										}
+									}
+								</code></pre>
+								<p>Now that we have the foundation or our search algorithm, let's write dfsTraversal. The idea is to add the current character to prefix and then visit a neighbor and add to the prefix again (marking both as visited). If prefix is not in our trie, we backtrack and continue visiting neighbors of the first tile. On the other hand, if prefix is in the trie, we visit the new tile's neighbors in a similar manner. The final case occurs if the prefix is in the trie <strong>and</strong> is a full word. Here, we add the prefix to foundWords, a global list of all discovered words. Each time we backtrack, we mark the Coordinate as unvisited, so that we may visit it again through another route.</p>
+								<pre><code>
+									private void dfsTraversal(StringBuilder prefix, Coordinate curr) {
+										if(visited[curr.x][curr.y]) {
+											return;
+										}
+										prefix.append(board[curr.x][curr.y]);
+										visited[curr.x][curr.y] = true;	
+										String pfx = prefix.toString();
+										if(dictionary.find(pfx) == -1) {
+											prefix.deleteCharAt(prefix.length() - 1);
+											visited[curr.x][curr.y] = false;
+											return;
+										} else if(dictionary.find(pfx) == 1) {
+											foundWords.put(pfx;
+										}
+										for(Coordinate next : getNeighbors(curr)) {
+											dfsTraversal(prefix, next);
+										}
+										prefix.deleteCharAt(prefix.length() - 1);
+										visited[curr.x][curr.y] = false;
+									}
+								</code></pre>
+								<p>We use a global 2d boolean array to denote whether or not each tile has been visited, so that we cannot use the same tile twice when building a word. We now have a list of all acceptable words present in the game board. We can create a score or length comparator to sort this list, but this is trivial (view source code for implementation of both).</p>
+
+								<h4><br>Part 3: Board Constructor</h4>
+								<p>The general idea behind this part was to take the game board from the Wordament client and convert to a 2d char array that I could feed into the solver we just developed. I did this by screenshotting each tile and using Tesseract to perform the optical character recognition (OCR). In order to get the coordinates for the screenshots, I moved and resized the client to a specific region of the screen. With the location of the client in a fixed position, I was able to compute the coordinates for the tile screenshots using hardcoded border-to-tile and tile-to-tile offsets.</p>
+								<p>Since Java cannot exert control over windows outside of the program (i.e. the Wordament client), I used JNA.</p>
+								<pre><code class="java">
+									public interface User32 extends StdCallLibrary {
+										User32 INSTANCE = (User32) Native.loadLibrary("user32", User32.class);
+										
+										HWND FindWindowA(String className, String windowName);
+										
+										boolean SetWindowPos(HWND hWnd, HWND hWndInsertAfter, int X, int Y, int cx, int cy, int uFlags);
+									}
+
+									public static void setDimensions(String className, String windowName) throws SetWindowPositionError, WindowNotFoundException {
+										HWND handle = User32.INSTANCE.FindWindowA(className, windowName);
+										if(handle == null) {
+											throw new WindowNotFoundException(className, windowName);
+										}
+										
+										boolean success = User32.INSTANCE.SetWindowPos(handle, null, DEFAULT_WINDOW_X, 
+												DEFAULT_WINDOW_Y, DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, 0x0000);
+										if(success == false) {
+											throw new SetWindowPositionError(windowName);
+										}
+									}
+								</code></pre>
+								<p>The hardcoded constants can be found in the source code for this project. Next, I used the Java AWT Robot object to take the 16 screenshots.</p>
+								<pre><code class="java">
+									public static BufferedImage[] getTiles() throws AWTException {
+										int numTiles = Player.BOARD_HEIGHT * Player.BOARD_WIDTH;
+										BufferedImage[] images = new BufferedImage[numTiles];
+										Rectangle tile;
+										Robot robot = new Robot();
+										BufferedImage image;
+										int x = DEFAULT_WINDOW_X + BOARD_OFFSET_X;
+										int y = DEFAULT_WINDOW_Y + BOARD_OFFSET_Y;
+										for(int i = 0; i < Player.BOARD_HEIGHT; i++) {
+											for(int j = 0; j < Player.BOARD_WIDTH; j++) {
+												tile = new Rectangle(x + TILE_OFFSET * j, y + TILE_OFFSET * i, TILE_HEIGHT, TILE_HEIGHT);	
+												image = robot.createScreenCapture(tile);
+												images[i*Player.BOARD_HEIGHT+j] = image;
+											}
+										}
+										return images;
+									}
+								</code></pre>
+								<p>From here, I used Tesseract (via Tess4J) to perform the OCR. Tesseract integration was relatively simple; I downloaded and extracted the <a href="http://tess4j.sourceforge.net/">Tess4J</a> JNA wrapper. I put the tessdata folder and dll files (from lib/win32-x86) in my project's root directory and copied the jar files (from dist and lib) to my project's lib folder. To reference these JAR files from the project, I just added them to the build path (using Eclipse Build Path > Add to Build Path). Using Tesseract to get the desired char array was easy:</p>
+								<pre><code class="java">
+									public static char[][] getConvertedBoard(BufferedImage[] tiles) throws TesseractException {
+										Tesseract reader = new Tesseract();
+										char[][] ret = new char[Player.BOARD_HEIGHT][Player.BOARD_WIDTH];
+										BufferedImage processedImage;
+										String convertedTile;
+										for(int j = 0; j < Player.BOARD_HEIGHT; j++) {
+											for(int k = 0; k < Player.BOARD_WIDTH; k++) {
+												processedImage = ImageHelper.convertImageToGrayscale(tiles[j*Player.BOARD_HEIGHT+k]);
+												convertedTile = reader.doOCR(processedImage);
+												ret[j][k] = BoardConstructor.getLastAlpha(convertedTile);
+											}
+										}
+										return ret;
+									}
+								</code></pre>
+								<p>This method takes in the array of screenshots we took using the Robot object and converts it to a 2d char array. We can feed this array into the solver we created in Part 2 to get the list of playable words. From here, the last part of the project was to manipulate the cursor in order to input these words into the game board.</p>
+
+								<h4><br>Part 4: Cursor Controller</h4>
+								<p>This part is relatively simple. First, we create a 2d array of Coordinates representing each tile, so we know where to move the cursor for a specific tile. Next, we need to edit Part 2 code in order to construct a cursor path while we find words. Given the cursor path and the array of coordinates corresponding to the 2d char array, we can use Robot's mouseMove function to input the words into the game board.</p>
+								<pre><code>
+									public static void initCursorPositions() {
+										cursorPositions = new Coordinate[Player.BOARD_HEIGHT][Player.BOARD_WIDTH];
+										Coordinate start = new Coordinate(995, 297);
+										Coordinate curr;
+										for(int i = 0; i < Player.BOARD_HEIGHT; i++) {
+											for(int j = 0; j < Player.BOARD_WIDTH; j++) {
+												curr = new Coordinate(start.x + i*BoardConstructor.TILE_OFFSET, 
+														start.y + j*BoardConstructor.TILE_OFFSET);
+												cursorPositions[i][j] = curr;
+											}
+										}
+									}
+								</code></pre>
+								<p>Here, cursorPositions is a global variable. We calculate the coordinates based on the border and tile offsets from in the last part. Now, we can use these calculations to create a cursorPath--the sequence of cursorPositions we must follow to swipe in a word.</p>
+								<p>The revised Part 2 code is as follows:</p>
+								<pre><code>
+									private void enumerateWords () {
+										StringBuilder prefix;
+										Coordinate start;
+										ArrayList&lt;Coordinate&gt; cursorPath;
+										for (int i = 0; i < BOARD_HEIGHT; i++) {
+											for (int j = 0; j < BOARD_WIDTH; j++) {
+												prefix = new StringBuilder();
+												start = new Coordinate(i, j);
+												cursorPath = new ArrayList&lt;Coordinate&gt;();
+												cursorPath.add(CursorController.cursorPositions[j][i]);
+												dfsTraversal(prefix, start, cursorPath);
+											}
+										}
+									}
+								</code></pre>
+								<pre><code>
+									private void dfsTraversal(StringBuilder prefix, Coordinate curr, ArrayList&lt;Coordinate&gt; cursorPath) {
+										if(visited[curr.x][curr.y]) {
+											return;
+										}	
+										prefix.append(board[curr.x][curr.y]);
+										cursorPath.add(CursorController.cursorPositions[curr.y][curr.x]);
+										visited[curr.x][curr.y] = true;	
+										String pfx = prefix.toString();
+										if(dictionary.find(pfx) == -1) {
+											prefix.deleteCharAt(prefix.length() - 1);
+											cursorPath.remove(cursorPath.size() - 1);
+											visited[curr.x][curr.y] = false;
+											return;
+										} else if(dictionary.find(pfx) == 1) {
+											foundWords.put(pfx, new ArrayList&lt;Coordinate&gt;(cursorPath));
+										}
+										for(Coordinate next : getNeighbors(curr)) {
+											dfsTraversal(prefix, next, cursorPath);
+										}
+										prefix.deleteCharAt(prefix.length() - 1);
+										cursorPath.remove(cursorPath.size() - 1);
+										visited[curr.x][curr.y] = false;
+									}
+								</code></pre>
+								<p>Essentially, as we build a prefix, we build its corresponding cursorPath. If the prefix is confirmed as a word, we store both the word and its cursorPath in foundWords, a global hashmap. If the prefix is not a word, we backtrack and delete the most recent cursorPosition (mirroring the deletion of the most recent character, as we explore the remaining neighbors).</p>
+								<p>We can now finish the swipeWord method. Essentially, we need to move the cursor to the first tile of the word, click and hold, and move the cursor along the word's cursor path, and finally release upon the end of the word.</p>
+								<pre><code>
+									public static int[] swipeWord(String input) throws AWTException, InterruptedException {
+										Robot robot = new Robot();
+										
+										double dx, dy, dt;
+										double stepSize = 20;
+										double swipeTime = 100;
+										
+										ArrayList&lt;Coordinate&gt; cursorPath = foundWords.get(input);
+										Coordinate curr = cursorPath.get(0);
+										robot.mouseMove(curr.x, curr.y);
+										Coordinate prev = new Coordinate(curr.x, curr.y);
+										robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+										for(int i = 1; i < cursorPath.size(); i++) {
+											curr = cursorPath.get(i);
+											
+											dx = (curr.x - prev.x) / stepSize;
+											dy = (curr.y - prev.y) / stepSize;
+											dt = swipeTime / stepSize;
+											
+											for(int j = 1; j <= stepSize; j++) {
+												Thread.sleep((int)dt);
+												robot.mouseMove((int)(prev.x + dx*j), (int)(prev.y + dy*j));
+											}
+											
+											robot.mouseMove(curr.x, curr.y);
+											prev = new Coordinate(curr.x, curr.y);
+										}
+										robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+										robot.mouseMove(prev.x - 40, prev.y + 40);
+										Thread.sleep(75);
+										Color swipeColor = robot.getPixelColor(prev.x - 40, prev.y + 40);
+										return new int[]{swipeColor.getRed(), swipeColor.getGreen(), swipeColor.getBlue()};
+									}
+								</code></pre>
+								<p>We divide each section of the swipe (cursorPosition to cursorPosition) into multiple steps in order to create the illusion of a smooth swipe. Without this, the cursor would instantaneouly move from point to point, which would not register as a swipe in the client. By breaking each swipe into small steps and suspending the current thread for short period of time, we ensure that the words are inputted properly.</p>
+								<p>Congrats! With this, we have a bot that can play Wordament for us. I highly recommend you don't use this project to achieve higher scores--you can and will get banned for cheating.</p>
 							</div>
 						</div>
 					</div>
@@ -184,17 +456,51 @@
 					</div>
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-sm-4">
+							<div class="col-sm-4 col-justified">
 								<h4>NGordNet <small>Java</small></h4>
 								<p>Used a directed graph and Google's NGrams dataset to create a visual representation of the relative popularity of words over times and a graph of hyponyms/hypernyms of any given word.</p>
 							</div>
-							<div class="col-sm-4">
+							<div class="col-sm-4 col-justified">
 								<h4>Gitlet <small>Java/SHA-256/GZip</small></h4> 
 								<p>A basic, lightweight version control system implemented from scratch. Includes features such as merge, interactive rebase, remote push/pull etc. Uses the same logic as Git, a popular version control system.</p>
 							</div>
-							<div class="col-sm-4">
+							<div class="col-sm-4 col-justified">
 								<h4>Tries <small>Java</small></h4>
-								<p>Implemented a ternary search trie (TST). Used the TST as a backbone for 1) an autocomplete feature, which would take in a prefix and output appropriate words by popularity, 2) a spellchecker which used an algorithm computing Levenshtein distance to return the most likely alternatives for mispelled words.</p>
+								<p>Implemented a ternary search trie (TST). Used the TST as a backbone for 1) an <strong>autocomplete</strong> feature, which would take in a prefix and output appropriate words by popularity, 2) a <strong>spellchecker</strong> which used an algorithm computing Levenshtein distance to return the most likely alternatives for mispelled words.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-sm-8">
+								<h4>CS61A <small>Structure and Interpretation of Computer Programs</small></h4>
+							</div>
+							<div class="col-sm-4 hidden-xs">
+								<h4 align="right"><small>View <a href="http://www-inst.eecs.berkeley.edu/~cs61a/fa14/">course page</a></small></h4>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-6 col-justified">
+								<h4>Hog <small>Python</small></h4>
+								<p>Developed a simulator and multiple strategies for Hog, a dice game. Designed strategies in order to maximize win rate against the CPU and other players. Tested final result against other students' strategies; ended in top 20.</p>
+							</div>
+							<div class="col-sm-6 col-justified">
+								<h4>Twitter Trends <small>Python</small></h4>
+								<p>Developed a visualization of Twitter data, based on keywords and hashtags, to derive sentiments of geographical regions based on user-inputted queries.</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6 col-justified">
+								<h4>Ants vs. Bees <small>Python</small></h4> 
+								<p>A barebones version of the popular Plants vs Zombies tower defense game. The player must expend limited resources to choose ants with different abilities (e.g. harvester, wall, ninja, bodyguard, queen, scubathrower, fire, etc.) to combat the oncoming randomly generated waves of bees.</p>
+							</div>
+							<div class="col-sm-6 col-justified">
+								<h4>Scheme Interpreter <small>Python/Scheme</small></h4>
+								<p>Developed an interpreter for a subset of the Scheme language. The interpreter reads in Scheme expressions, isolates the primitive procedure calls, evaluates symbols and lambda expressions, and supports user-defined functions.</p>
 							</div>
 						</div>
 					</div>
@@ -214,6 +520,7 @@
 		</footer>
 	</div>
 
+	<script src="js/highlight.pack.js"></script>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/custom.js"></script>

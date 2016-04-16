@@ -63,6 +63,17 @@ body {
     opacity: .75 !important;
 }
 
+.col-justified {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
 pre {
-    overflow: auto;
+    overflow-x: auto;
+}
+
+pre code {
+    overflow-wrap: normal;
+    white-space: pre;
+    font-family: Consolas;
 }
