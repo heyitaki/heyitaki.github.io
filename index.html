@@ -6,6 +6,7 @@
 	<title>Akshath Sivaprasad</title>
 	<link rel="icon" href="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/256/money_bag.png">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/boostrap-extensions.css" rel="stylesheet">
 	<link href="css/custom.css" rel="stylesheet">
 	<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	<link href="styles/custom-style.css" rel="stylesheet">
@@ -43,7 +44,7 @@
 			</div>
 			<div id="blog" class="tab-pane fade">
 				<h2>Sometimes I write.</h2> 
-				<div class="row"><div class"col-sm-12"><br></div></div>
+				<div class="row"><div class"col-sm-12"></div></div>
 				<div class="row">
 					<div class="col-md-8 col-lg-9">
 						<div class="tab-content tab-content-full">
@@ -56,7 +57,7 @@
 										<h3 align="right"><small>View <a href="http://github.com/akshaths/WordamentPlayer">source code</a></small></h3>
 									</div>
 									<div class="col-xs-12 visible-xs-block">
-										<h3><a href="http://github.com/akshaths/WordamentPlayer">WordamentPlayer</a></h3>
+										<h3><a href="http://github.com/akshaths/WordamentPlayer">Wordament Player</a></h3>
 									</div>
 								</div>
 								<p>The purpose of this project was to write an autonomous bot to play Wordament, an online version of Boggle. Below is a quick demo of the finished product. The tile swiping starts after 10 seconds due to precalc time.</p>
@@ -67,13 +68,13 @@
 								</div><br>
 								<p>First, let's look at how words are formed on the board. Note that from any tile, we can move to an adjacent tile (i.e. horizontal, vertical, or diagonal), as shown below. Tiles cannot be used twice in the same string.</p>
 								<div class="row">
-									<div class="col-lg-6 col-md-12" align="center">
+									<div class="col-lg-6 col-md-12 hidden-xs" align="center">
 										<figure>
 											<img src="img/howtoplay1.png">
 											<figcaption align="center">P - A - T - H - S</figcaption>
 										</figure>
 									</div>
-									<div class="col-lg-6 col-md-12" align="center">
+									<div class="col-lg-6 col-md-12 hidden-xs" align="center">
 										<figure>
 											<img src="img/howtoplay2.png">
 											<figcaption align="center">C - A - R - A - T - S</figcaption>
@@ -397,7 +398,7 @@
 			</div>
 			<div id="projects" class="tab-pane fade">
 				<h2>I like to code. <small>Even when I'm not forced to.</small></h2>
-				<div class="page-header">
+				<div class="page-header page-header-custom">
 					<h3>Personal projects</h3>
 				</div>
 				<div class="panel panel-default">
@@ -440,7 +441,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="page-header">
+				<div class="page-header page-header-custom">
 					<h3>Class projects</h3>
 				</div>
 				<div class="panel panel-default">
@@ -456,15 +457,15 @@
 					</div>
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-sm-4 col-justified">
+							<div class="col-sm-4 text-justify-not-xs text-left-xs">
 								<h4>NGordNet <small>Java</small></h4>
 								<p>Used a directed graph and Google's NGrams dataset to create a visual representation of the relative popularity of words over times and a graph of hyponyms/hypernyms of any given word.</p>
 							</div>
-							<div class="col-sm-4 col-justified">
+							<div class="col-sm-4 text-justify-not-xs text-left-xs">
 								<h4>Gitlet <small>Java/SHA-256/GZip</small></h4> 
 								<p>A basic, lightweight version control system implemented from scratch. Includes features such as merge, interactive rebase, remote push/pull etc. Uses the same logic as Git, a popular version control system.</p>
 							</div>
-							<div class="col-sm-4 col-justified">
+							<div class="col-sm-4 text-justify-not-xs text-left-xs">
 								<h4>Tries <small>Java</small></h4>
 								<p>Implemented a ternary search trie (TST). Used the TST as a backbone for 1) an <strong>autocomplete</strong> feature, which would take in a prefix and output appropriate words by popularity, 2) a <strong>spellchecker</strong> which used an algorithm computing Levenshtein distance to return the most likely alternatives for mispelled words.</p>
 							</div>
@@ -484,21 +485,21 @@
 					</div>
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-sm-6 col-justified">
+							<div class="col-sm-6 text-justify-not-xs text-left-xs">
 								<h4>Hog <small>Python</small></h4>
 								<p>Developed a simulator and multiple strategies for Hog, a dice game. Designed strategies in order to maximize win rate against the CPU and other players. Tested final result against other students' strategies; ended in top 20.</p>
 							</div>
-							<div class="col-sm-6 col-justified">
+							<div class="col-sm-6 text-justify-not-xs text-left-xs">
 								<h4>Twitter Trends <small>Python</small></h4>
 								<p>Developed a visualization of Twitter data, based on keywords and hashtags, to derive sentiments of geographical regions based on user-inputted queries.</p>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-6 col-justified">
+							<div class="col-sm-6 text-justify-not-xs text-left-xs">
 								<h4>Ants vs. Bees <small>Python</small></h4> 
 								<p>A barebones version of the popular Plants vs Zombies tower defense game. The player must expend limited resources to choose ants with different abilities (e.g. harvester, wall, ninja, bodyguard, queen, scubathrower, fire, etc.) to combat the oncoming randomly generated waves of bees.</p>
 							</div>
-							<div class="col-sm-6 col-justified">
+							<div class="col-sm-6 text-justify-not-xs text-left-xs">
 								<h4>Scheme Interpreter <small>Python/Scheme</small></h4>
 								<p>Developed an interpreter for a subset of the Scheme language. The interpreter reads in Scheme expressions, isolates the primitive procedure calls, evaluates symbols and lambda expressions, and supports user-defined functions.</p>
 							</div>
@@ -516,7 +517,11 @@
 		</div>
 
 		<footer>
-			<h5 align="right">© <script>document.write(new Date().getFullYear())</script> Akshath Sivaprasad</h5>
+			<div class="row">
+				<div class="col-xs-12 text-right-not-xs text-center-xs">
+					<h5>© <script>document.write(new Date().getFullYear())</script> Akshath Sivaprasad</h5>
+				</div>
+			</div>
 		</footer>
 	</div>
 
