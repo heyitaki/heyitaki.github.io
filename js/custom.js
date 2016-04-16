@@ -1,3 +1,5 @@
+hljs.initHighlightingOnLoad();
+
 $('.nav-tabs a').click(function (e) {
 	var hash = window.location.hash;
 	hash && $('ul.nav a[href="' + hash + '"]').tab('show');
