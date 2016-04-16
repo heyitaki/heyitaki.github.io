@@ -37,14 +37,18 @@
 
 		<div class="tab-content">
 			<div id="about" class="tab-pane fade in active">
-				<h2>Hi everyone! <small>I'm Akshath.</small></h2>
+				
+				<div class="page-header page-header-custom">
+					<h2>Hi everyone! <small>I'm Akshath.</small></h2>
+				</div>
 				<p>I'm currently a sophomore at UC Berkeley majoring in Electrical Engineering and Computer Science (EECS). I'm interested in computer security and machine learning. I have explored both fields through pratical application in internships at Portland State University, and more recently, Apptio Inc. </p>
 				<p>I love coding when I can see a tangible end result. I like to direct my energy into competitive events such as hackathons and online contests such as USACO and Google Code Jam. In addition, I've started to create my own <a href="http://akshaths.github.io/index.html#projects">personal projects</a> over the past year, usually pertaining to some other interest I have, such as my Wordament solver project.</p> 
 				<p>Feel free to <a href="http://akshaths.github.io/index.html#contact">contact me</a> or view my <a href="https://github.com/akshaths/akshaths.github.io/blob/master/resume.pdf">resume</a>!</p>
 			</div>
 			<div id="blog" class="tab-pane fade">
-				<h2>Sometimes I write.</h2> 
-				<div class="row"><div class"col-sm-12"></div></div>
+				<div class="page-header page-header-custom">
+					<h2>Sometimes I write.</h2> 
+				</div>
 				<div class="row">
 					<div class="col-md-8 col-lg-9">
 						<div class="tab-content tab-content-full">
@@ -261,7 +265,7 @@
 										return images;
 									}
 								</code></pre>
-								<p>From here, I used Tesseract (via Tess4J) to perform the OCR. Tesseract integration was relatively simple; I downloaded and extracted the <a href="http://tess4j.sourceforge.net/">Tess4J</a> JNA wrapper. I put the tessdata folder and dll files (from lib/win32-x86) in my project's root directory and copied the jar files (from dist and lib) to my project's lib folder. To reference these JAR files from the project, I just added them to the build path (using Eclipse Build Path > Add to Build Path). Using Tesseract to get the desired char array was easy:</p>
+								<p>From here, I used Tesseract to perform the OCR. Tesseract integration was relatively simple; I downloaded and extracted the <a href="http://tess4j.sourceforge.net/">Tess4J</a> JNA wrapper. I put the tessdata folder and dll files (from lib/win32-x86) in my project's root directory and copied the jar files (from dist and lib) to my project's lib folder. To reference these JAR files from the project, I just added them to the build path (using Eclipse Build Path > Add to Build Path). Using Tesseract to get the desired char array was easy:</p>
 								<pre><code class="java">
 									public static char[][] getConvertedBoard(BufferedImage[] tiles) throws TesseractException {
 										Tesseract reader = new Tesseract();
@@ -397,9 +401,11 @@
 				</div>
 			</div>
 			<div id="projects" class="tab-pane fade">
-				<h2>I like to code. <small>Even when I'm not forced to.</small></h2>
 				<div class="page-header page-header-custom">
-					<h3>Personal projects</h3>
+					<h2>I like to code. <small>Even when I'm not forced to.</small></h2>
+				</div>
+				<div class="well well-title">
+					<h4>PERSONAL PROJECTS<h4>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -432,7 +438,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="panel-body">
+					<div class="panel-body text-justify-not-xs text-left-xs">
 						WordamentPlayer is an autonomous bot that will play the PC version of the online word game, Wordament. Wordament is similar to the classic game Boggle, in which players are given a 4x4 board in which they string together adjacent tiles to form words. WordamentPlayer screenshots the game board, performs optical character recognition (OCR) on each tile, solves the board, and then manipulates the mouse cursor to input the found words into the game board. Screenshotting and moving the cursor is accomplished with Java AWT Robot and JNA, while the OCR is performed using Tesseract and the Tess4J wrapper. By examining certain pixels on the board, WordamentPlayer can detect the game state (e.g. during a round, scoring between rounds, guessing penalties), and can also detect if a swiped word is correct/incorrect (may occur because Wordament's dictionary is different from the open-source one I used).
 						<div class="row">
 							<div class="col-xs-12 visible-xs-block">
@@ -441,8 +447,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="page-header page-header-custom">
-					<h3>Class projects</h3>
+				<div class="well well-title">
+					<h4>CLASS PROJECTS<h4>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -508,7 +514,9 @@
 				</div>
 			</div>
 			<div id="contact" class="tab-pane fade">
-				<h2>Get in touch.</h2>
+				<div class="page-header page-header-custom">
+					<h2>Get in touch.</h2>
+				</div>
 				<p><strong>Email:</strong> <a href="mailto:akshath@berkeley.edu">akshath@berkeley.edu</a></p>
 				<p><strong>Phone:</strong> <a href="tel:555-555-5555">(425) 633-9271</a></p>
 				<p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/akshathsivaprasad">linkedin.com/in/akshathsivaprasad</a></p>
