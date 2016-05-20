@@ -271,12 +271,10 @@
 										Tesseract reader = new Tesseract();
 										char[][] ret = new char[Player.BOARD_HEIGHT][Player.BOARD_WIDTH];
 										BufferedImage processedImage;
-										String convertedTile;
 										for(int j = 0; j < Player.BOARD_HEIGHT; j++) {
 											for(int k = 0; k < Player.BOARD_WIDTH; k++) {
 												processedImage = ImageHelper.convertImageToGrayscale(tiles[j*Player.BOARD_HEIGHT+k]);
-												convertedTile = reader.doOCR(processedImage);
-												ret[j][k] = BoardConstructor.getLastAlpha(convertedTile);
+												ret[j][k] = reader.doOCR(processedImage);
 											}
 										}
 										return ret;
@@ -288,13 +286,12 @@
 								<p>This part is relatively simple. First, we create a 2d array of Coordinates representing each tile, so we know where to move the cursor for a specific tile. Next, we need to edit Part 2 code in order to construct a cursor path while we find words. Given the cursor path and the array of coordinates corresponding to the 2d char array, we can use Robot's mouseMove function to input the words into the game board.</p>
 								<pre><code>
 									public static void initCursorPositions() {
-										cursorPositions = new Coordinate[Player.BOARD_HEIGHT][Player.BOARD_WIDTH];
+										cursorPositions = new Coordinate[BOARD_HEIGHT][BOARD_WIDTH];
 										Coordinate start = new Coordinate(995, 297);
 										Coordinate curr;
-										for(int i = 0; i < Player.BOARD_HEIGHT; i++) {
-											for(int j = 0; j < Player.BOARD_WIDTH; j++) {
-												curr = new Coordinate(start.x + i*BoardConstructor.TILE_OFFSET, 
-														start.y + j*BoardConstructor.TILE_OFFSET);
+										for(int i = 0; i < BOARD_HEIGHT; i++) {
+											for(int j = 0; j < BOARD_WIDTH; j++) {
+												curr = new Coordinate(start.x + i*TILE_OFFSET, start.y + j*TILE_OFFSET);
 												cursorPositions[i][j] = curr;
 											}
 										}
@@ -312,7 +309,7 @@
 												prefix = new StringBuilder();
 												start = new Coordinate(i, j);
 												cursorPath = new ArrayList&lt;Coordinate&gt;();
-												cursorPath.add(CursorController.cursorPositions[j][i]);
+												cursorPath.add(cursorPositions[j][i]);
 												dfsTraversal(prefix, start, cursorPath);
 											}
 										}
@@ -324,7 +321,7 @@
 											return;
 										}	
 										prefix.append(board[curr.x][curr.y]);
-										cursorPath.add(CursorController.cursorPositions[curr.y][curr.x]);
+										cursorPath.add(cursorPositions[curr.y][curr.x]);
 										visited[curr.x][curr.y] = true;	
 										String pfx = prefix.toString();
 										if(dictionary.find(pfx) == -1) {
@@ -405,7 +402,7 @@
 					<h2>I like to code. <small>Even when I'm not forced to.</small></h2>
 				</div>
 				<div class="well well-title">
-					<h4>PERSONAL PROJECTS<h4>
+					<h4 class="text-left-not-xs text-center-xs">PERSONAL PROJECTS<h4>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -447,8 +444,28 @@
 						</div>
 					</div>
 				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-sm-8">
+								<h4>Tetrament <small>JavaScript/HTML/CSS</small></h4>
+							</div>
+							<div class="col-sm-4 hidden-xs">
+								<h4 align="right"><small>View <a href="http://github.com/akshaths/WordamentPlayer">source code</a></small></h4>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body text-justify-not-xs text-left-xs">
+						Tetrament is a combination between the classic Tetris and Boggle games. Play it <a href="http://akshaths.github.io/Tetrament/">here</a>!
+						<div class="row">
+							<div class="col-xs-12 visible-xs-block">
+								<p><small>View <a href="https://github.com/akshaths/Tetrament">source code</a></small></p>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="well well-title">
-					<h4>CLASS PROJECTS<h4>
+					<h4 class="text-left-not-xs text-center-xs">CLASS PROJECTS<h4>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
