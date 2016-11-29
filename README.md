@@ -1,2 +1,2 @@
 # akshaths.github.io
-An initial feeble effort at a personal website.
+An initial feeble effort at a personal website. Visit it [HERE](akshaths.github.io)!
