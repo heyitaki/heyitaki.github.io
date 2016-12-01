@@ -125,7 +125,31 @@ a {
 }
 
 #home-contents {
-	left: 62%;
+	position: relative;
+	text-align: center;
+	top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+   	transform: translateX(-50%) translateY(-50%);
+}
+
+#portrait {
+	display: inline-block;
+	background-image: url("../img/portrait.jpg");
+	background-size: cover;
+	height: 325px;
+	width: 325px;
+	border-radius: 50%;
+    border: 4px solid #fff;
+    margin-right: 25px; 
+}
+
+#home-container {
+	display: inline-block;
+	position: relative;
+  	transform: translateY(-35%);
+  	margin-left: 25px;
 }
 
 #home-title {
@@ -142,21 +166,6 @@ a {
 	letter-spacing: .075em;
 	text-align: left;
 	width: 600px;
-}
-
-#portrait {
-	background-image: url("../img/portrait.jpg");
-	background-size: cover;
-	height: 325px;
-	width: 325px;
-	border-radius: 50%;
-    border: 4px solid #fff;
-    top: 50%;
-    left: 29%;
-    position: absolute;
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    -moz-transform: translateX(-50%) translateY(-50%);
-   	transform: translateX(-50%) translateY(-50%);
 }
 
 #portrait:hover {
