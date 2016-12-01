@@ -208,6 +208,7 @@ a {
     margin: 0px 20px 0px 20px;
     text-align: center;
     cursor: pointer;
+    background-color: black;
     z-index: 1;
 }
 
@@ -232,7 +233,6 @@ a {
 
 .img-description {
 	font-size: 12px;
-	padding: 5px 0px 5px 0px;
 	word-wrap: break-word;
 	letter-spacing: .1em;
 	font-weight: 550;
@@ -244,7 +244,6 @@ a {
 	border-style: solid;
 	border-color: #d3d3d3;
 	border-width: 5px;
-	background-color: black;
 }
 
 .job-card:hover {
