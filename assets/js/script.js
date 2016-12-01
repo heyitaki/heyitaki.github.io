@@ -38,20 +38,29 @@ $(document).ready(function() {
 	window.sr = ScrollReveal({reset: true});
 	sr.reveal('.icon', 100);
 
-	/* Change navbar color on scroll to improve readability.
+	/* Change active tab based on scroll. */
 	$(window).scroll(function() {
-	    var winTop = $(this).scrollTop();
-	    var $sections = $('section');
-	    var top = $.grep($sections, function(item) {
-	        return $(item).position().top <= winTop;
-	    });
-	    var topId = $(top[$(top).length-1]).attr('id')
-	    if (topId == "#home-section") {
-	    	$(".navbar").css("color", "white");
-	    	$(".active-navbar-tab").css("border-bottom-color", "white");
-	    } else {
-	    	$(".navbar").css("color", "black");
-	    	$(".active-navbar-tab").css("border-bottom-color", "black");
-	    }
-	}); */
+		var scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+		var scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
+		var scrolledToBottom = (scrollTop + window.innerHeight) >= scrollHeight;
+		var topTab;
+		if (scrolledToBottom) {
+			topTab = "#contact-tab";
+		} else {
+			var winTop = $(this).scrollTop();
+		    var $sections = $('section');
+		    var top = $.grep($sections, function(item) {
+		        return $(item).position().top <= winTop + 200;
+		    });
+		    var topId = $(top[$(top).length-1]).attr('id');
+		    if (typeof topId == "undefined") {
+		    	topId = $(top[$(top).length-2]).attr('id');
+		    }
+		    topTab = "#" + topId.substring(0, topId.indexOf('-')) + "-tab";
+		}
+	    if (!$(topTab).hasClass("active-navbar-tab")) {
+			$(".navbar-item").removeClass("active-navbar-tab");
+			$(topTab).addClass("active-navbar-tab");
+		}
+	});
 });
