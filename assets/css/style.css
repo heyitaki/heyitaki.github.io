@@ -190,7 +190,7 @@ a {
 }
 
 #work-caption {
-	padding-bottom: 20px;
+	margin-bottom: 40px;
 }
 
 #proj-subtitle {
@@ -198,7 +198,7 @@ a {
 }
 
 #job-container {
-	padding-bottom: 20px;
+	margin-bottom: 45px;
 	text-align: center;
 }
 
@@ -206,7 +206,7 @@ a {
 	position: relative;
 	display: inline-block;
 	height: 50px;
-	width: 50px;
+	width: 150px;
 	margin: 0px 20px 0px 20px;
 	color: transparent;
 	background-color: transparent;
@@ -298,13 +298,13 @@ a {
 }
 
 #spine1 {
-	top: 36%;
-	transform: translateX(calc(-50% + 50px));
+	top: 35.75%;
+	transform: translateX(calc(-50% + 75px));
 }
 
 #spine2 {
-	top: 79.25%;
-	transform: translateX(calc(-50% - 50px));
+	top: 76%;
+	transform: translateX(calc(-50% - 75px));
 }
 
 .img-container {
