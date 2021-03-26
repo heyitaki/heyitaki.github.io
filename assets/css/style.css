@@ -9,6 +9,7 @@ body {
 
 a {
 	text-decoration: none;
+  color: black;
 }
 
 .page-wrapper {
@@ -20,10 +21,51 @@ a {
 	padding: 50px 20px;
 }
 
+.underlined {
+  position: relative;
+  padding: 0 3px;
+}
+
+.underlined::after {
+  content: '';
+  height: 10px;
+  position: absolute;
+  top: 60%;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+.underlined.name {
+  padding: 0 6px;
+}
+
+.underlined.name::after {
+  height: 12.5px;
+  background-color: #d09ae1;
+}
+
+.underlined.pantheon::after {
+	background-color: #99a2e9;
+}
+
+.underlined.pantheon:hover::after {
+	background-color: #b2b9ee;
+}
+
+.underlined.twitter::after {
+	background-color: #8ed0f8;
+}
+
+.underlined.twitter:hover::after {
+	background-color: #a4d9f9;
+}
+
 .title {
 	font-size: 24px;
   font-weight: normal;
   margin-bottom: 25px;
+  width: fit-content;
 }
 
 .text {
@@ -34,38 +76,6 @@ a {
 
 .text p {
 	margin-top: 10px;
-}
-
-span {
-  color: #fff;
-  padding: 4px 8px;
-  margin: 0 2px;
-  border-radius: 3px;
-}
-
-span.pantheon {
-	background-color: #2E9CCA;
-}
-
-span.pantheon:hover {
-	background-color: #40AEDC;
-}
-
-span.twitter {
-	background-color: #1DA1F2;
-}
-
-span.twitter:hover {
-	background-color: #2FB3FF;
-}
-
-span.name {
-  padding: 7px 11px;
-  background-color: #A236C4;
-}
-
-span a {
-  color: #fff;
 }
 
 .links {
