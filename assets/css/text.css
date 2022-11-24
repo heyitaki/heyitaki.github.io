@@ -16,39 +16,27 @@
 }
 
 .underlined:hover:after {
-  height: 20.5px;
+  height: 22px;
   top: -2%;
+  opacity: .55;
 }
 
 .underlined.jump::after {
 	background-color: #71F0D9;
 }
 
-.underlined.jump:hover:after {
-	background-color: #AAF6E8;
-}
-
 .underlined.pantheon::after {
 	background-color: #99a2e9;
-}
-
-.underlined.pantheon:hover:after {
-	background-color: #b2b9ee;
 }
 
 .underlined.twitter::after {
 	background-color: #8ed0f8;
 }
 
-.underlined.twitter:hover:after {
-	background-color: #a4d9f9;
-}
-
 .text {
 	font-size: 17px;
 	line-height: 24px;
 	color: #000;
-  /* font-variation-settings: 'wght' 400; */
   font-weight: 300;
   letter-spacing: .1px;
   font-family: serif;
@@ -56,7 +44,6 @@
 
 .text p {
 	margin-top: 10px;
-  /* text-align: justify; */
 }
 
 .links .img-links a {
