@@ -1,0 +1,94 @@
+.underlined {
+  position: relative;
+  padding: 0 2.5px;
+}
+
+.underlined::after {
+  border-radius: 1px;
+  content: '';
+  height: 7.5px;
+  position: absolute;
+  top: 60%;
+  left: 0;
+  transition: top .3s, height .3s;
+  width: 100%;
+  z-index: -1;
+}
+
+.underlined:hover:after {
+  height: 20.5px;
+  top: -2%;
+}
+
+.underlined.jump::after {
+	background-color: #71F0D9;
+}
+
+.underlined.jump:hover:after {
+	background-color: #AAF6E8;
+}
+
+.underlined.pantheon::after {
+	background-color: #99a2e9;
+}
+
+.underlined.pantheon:hover:after {
+	background-color: #b2b9ee;
+}
+
+.underlined.twitter::after {
+	background-color: #8ed0f8;
+}
+
+.underlined.twitter:hover:after {
+	background-color: #a4d9f9;
+}
+
+.text {
+	font-size: 17px;
+	line-height: 24px;
+	color: #000;
+  /* font-variation-settings: 'wght' 400; */
+  font-weight: 300;
+  letter-spacing: .1px;
+  font-family: serif;
+}
+
+.text p {
+	margin-top: 10px;
+  /* text-align: justify; */
+}
+
+.links .img-links a {
+  background: #fff;
+  mix-blend-mode: multiply;
+  display: inline-block;
+  position: relative;
+}
+
+.links .img-links a::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
