@@ -106,8 +106,13 @@
   <h1 class="title">Akshath Sivaprasad</h1>
   <div class="links">
     <div class="text-links">
-      <div class="active-link">About</div>
-      <a href="./writing">Writing</a>
+      {%- if page.title == "Writing" -%}
+        <a href="/">About</a>
+        <div class="active-link">Writing</div>
+      {%- else -%}
+        <div class="active-link">About</div>
+        <a href="/writing">Writing</a>
+      {%- endif -%}
     </div>
     <div class="img-links">
       <a class="twitter" href="https://twitter.com/heyitaki" target="_blank">
