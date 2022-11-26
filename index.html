@@ -1,66 +1,105 @@
-<!DOCTYPE html>
-<html>
+---
+layout: home
+---
 
-<head>
-  <title>Akshath Sivaprasad</title>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <link rel="icon" href="assets/img/icon.png" />
-  <link rel="stylesheet" href="assets/css/general.css" />
-  <link rel="stylesheet" href="assets/css/header.css" />
-  <link rel="stylesheet" href="assets/css/text.css" />
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QGLK07ZH88"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
+<style type="text/css" media="screen">
+  .underlined {
+    position: relative;
+    padding: 0 2.5px;
+  }
+
+  .underlined::after {
+    border-radius: 1px;
+    content: '';
+    height: 7.5px;
+    position: absolute;
+    top: 60%;
+    left: 0;
+    transition: top .3s, height .3s;
+    width: 100%;
+    z-index: -1;
+  }
+
+  .underlined:hover:after {
+    height: 22px;
+    top: -2%;
+    opacity: .55;
+  }
+
+  .underlined.jump::after {
+    background-color: #71F0D9;
+  }
+
+  .underlined.pantheon::after {
+    background-color: #99a2e9;
+  }
+
+  .underlined.twitter::after {
+    background-color: #8ed0f8;
+  }
+
+  .text {
+    font-size: 17px;
+    line-height: 24px;
+    color: #000;
+    font-weight: 300;
+    letter-spacing: .1px;
+    font-family: serif;
+  }
+
+  .text p {
+    margin-top: 10px;
+  }
+
+  .links .img-links a {
+    background: #fff;
+    mix-blend-mode: multiply;
+    display: inline-block;
+    position: relative;
+  }
+
+  .links .img-links a::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
     }
-    gtag("js", new Date());
-    gtag("config", "G-QGLK07ZH88");
-  </script>
-  <!-- If you're reading this, I hope you have an amazing day :)  -->
-</head>
 
-<body>
-  <div class="page-wrapper">
-    <div class="header">
-      <h1 class="title">Akshath Sivaprasad</h1>
-      <div class="links">
-        <div class="text-links">
-          <div class="active-link">About</div>
-          <a href="./writing">Writing</a>
-        </div>
-        <div class="img-links">
-          <a class="twitter" href="https://twitter.com/heyitaki" target="_blank">
-            <img src="assets/img/twitter.png" alt="icon" />
-          </a>
-          <a class="github" href="https://github.com/heyitaki" target="_blank">
-            <img src="assets/img/github.png" alt="icon" />
-          </a>
-          <a class="linkedin" href="https://www.linkedin.com/in/akshathsivaprasad/" target="_blank">
-            <img src="assets/img/linkedin.png" alt="icon" />
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="text">
-      <p>
-        Currently building bridges at
-        <a class="underlined jump" href="https://jumpcrypto.com/" target="_blank">Jump</a>.
-        Previously, I founded
-        <a class="underlined pantheon" href="http://joinpantheon.io/" target="_blank">Pantheon</a>
-        (YC W20) and worked on payments security at Microsoft. I'm passionate about web3, education,
-        and health, and in my free time, you can probably find me building in one of these areas.
-      </p>
-      <p>
-        Use my
-        <a class="underlined twitter" href="https://twitter.com/heyitaki"
-          target="_blank">Twitter</a>
-        to get in touch!
-      </p>
-    </div>
-  </div>
-</body>
+    50% {
+      background-position: 100% 50%;
+    }
 
-</html>
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+</style>
+
+<div class="text">
+  <p>
+    Currently building bridges at
+    <a class="underlined jump" href="https://jumpcrypto.com/" target="_blank">Jump</a>.
+    Previously, I founded
+    <a class="underlined pantheon" href="http://joinpantheon.io/" target="_blank">Pantheon</a>
+    (YC W20) and worked on payments security at Microsoft. I'm passionate about web3, education,
+    and health, and in my free time, you can probably find me building in one of these areas.
+  </p>
+  <p>
+    Use my
+    <a class="underlined twitter" href="https://twitter.com/heyitaki" target="_blank">Twitter</a>
+    to get in touch!
+  </p>
+</div>
