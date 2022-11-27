@@ -48,12 +48,17 @@ $on-laptop:        800px !default;
   font-size: $base-font-size * $ratio;
 }
 
-.serif {
+.serif-text {
   font-size: 17px;
   line-height: 24px;
   color: #000;
-  letter-spacing: .1px;
   font-family: source-serif-pro, serif;
+  letter-spacing: .1px;
+}
+
+.sans-serif-text {
+  font-family: $base-font-family;
+  letter-spacing: -.25px;
 }
 
 // Import partials.
