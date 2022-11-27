@@ -1,3 +1,11 @@
 - date: 2022-08-09 00:00:00 -0800
   title: Security Analysis of Cross-chain Bridges
   url: https://jumpcrypto.com/security-stack-up-how-bridges-compare/
+  excerpt:
+    <p>
+      Users care about several features when using bridges—good user experience, low slippage and
+      efficiency, and safety of their assets. Of these, security is not just another consideration
+      to be made when evaluating bridges; rather, it must be the most important feature of 
+      comparison. With that in mind, let’s see how security stacks up across different bridges.
+    </p>
+  external: true
