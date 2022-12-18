@@ -1,11 +1,22 @@
-/**
- * Page content
- */
+// Page wrapper
+
 .page-content {
   margin: 0 auto;
 	max-width: 515px;
 	padding: 50px 20px;
 }
+
+// Home
+
+.home-content {
+  font-size: 17px;
+  line-height: 24px;
+  color: #000;
+  letter-spacing: .1px;
+  font-family: serif;
+}
+
+// Posts list
 
 .post-list {
   margin-left: 0;
@@ -39,11 +50,8 @@
   display: block;
 }
 
+// Posts
 
-
-/**
- * Posts
- */
 .post-header {
   margin-bottom: $spacing-unit;
 }
