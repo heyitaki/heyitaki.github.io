@@ -94,9 +94,50 @@ li {
 /**
  * Headings
  */
+title {
+  @extend .sans-serif-text;
+  @include relative-font-size(1.6);
+  line-height: 1;
+  color: #000;
+  margin-bottom: 5px;
+  display: block; // somehow is set to `display: none;` if not explicitly set
+}
+
 h1, h2, h3, h4, h5, h6 {
   @extend .sans-serif-text;
   font-weight: $base-font-weight;
+}
+
+h1 {
+  @include relative-font-size(1.75);
+
+  @include media-query($on-laptop) {
+    @include relative-font-size(1.75);
+  }
+}
+
+h2 {
+  @include relative-font-size(1.5);
+
+  @include media-query($on-laptop) {
+    @include relative-font-size(1.5);
+  }
+}
+
+h3 {
+  @include relative-font-size(1.375);
+
+  @include media-query($on-laptop) {
+    @include relative-font-size(1.375);
+  }
+}
+
+h4 {
+  @include relative-font-size(1);
+
+  @include media-query($on-laptop) {
+    @include relative-font-size(1);
+  }
 }
 
 
@@ -172,59 +213,6 @@ pre {
     border: 0;
     padding-right: 0;
     padding-left: 0;
-  }
-}
-
-
-
-/**
- * Wrapper
- */
-.wrapper {
-  max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit} * 2));
-  max-width:         calc(#{$content-width} - (#{$spacing-unit} * 2));
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: $spacing-unit;
-  padding-left: $spacing-unit;
-  @extend %clearfix;
-
-  @include media-query($on-laptop) {
-    max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit}));
-    max-width:         calc(#{$content-width} - (#{$spacing-unit}));
-    padding-right: $spacing-unit / 2;
-    padding-left: $spacing-unit / 2;
-  }
-}
-
-
-
-/**
- * Clearfix
- */
-%clearfix:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-
-
-/**
- * Icons
- */
-.svg-icon {
-    width: 16px;
-    height: 16px;
-    display: inline-block;
-    fill: #{$grey-color};
-    padding-right: 5px;
-    vertical-align: text-top;
-}
-
-.social-media-list {
-  li + li {
-    padding-top: 5px;
   }
 }
 
