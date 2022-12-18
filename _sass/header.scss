@@ -12,12 +12,13 @@ body {
   background-color: #fff;
 }
 
-.title {
+title {
   @extend .sans-serif-text;
   @include relative-font-size(1.6);
   line-height: 1;
   color: #000;
   margin-bottom: 10px;
+  display: block; // somehow is set to `display: none;` if not explicitly set
 }
 
 .links {
