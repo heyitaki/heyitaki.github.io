@@ -2,8 +2,14 @@
 
 .page-content {
   margin: 0 auto;
-	max-width: 515px;
-	padding: 50px 20px;
+  min-width: 320px; // mobile min width
+	max-width: $content-max-width;
+	padding: $content-padding-y $content-padding-x;
+
+  // not sure why 55px but snaps otherwise
+  @include media-query($content-max-width + 55px) {
+    margin: 0; // allow word wrap if lower than max-width
+  }
 }
 
 // Home

@@ -28,7 +28,9 @@ $link-hover-color:   $grey-color-dark !default;
 $table-text-align: left !default;
 
 // Width of the content area
-$content-width:    800px !default;
+$content-max-width: 595px !default;
+$content-padding-x: 20px !default;
+$content-padding-y: 50px !default;
 
 $on-palm:          600px !default;
 $on-laptop:        800px !default;
