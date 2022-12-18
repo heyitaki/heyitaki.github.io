@@ -94,6 +94,7 @@ li {
  * Headings
  */
 h1, h2, h3, h4, h5, h6 {
+  @extend .sans-serif-text;
   font-weight: $base-font-weight;
 }
 
@@ -106,12 +107,9 @@ a {
   color: $brand-color;
   text-decoration: none;
 
-  .social-media-list &:hover {
-    text-decoration: none;
-
-    .username {
-      text-decoration: underline;
-    }
+  &:hover {
+    color: $link-hover-color;
+    // text-decoration: underline;
   }
 }
 

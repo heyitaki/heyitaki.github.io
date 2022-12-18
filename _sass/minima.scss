@@ -15,13 +15,15 @@ $base-line-height: 1.5 !default;
 
 $spacing-unit:     30px !default;
 
+$grey-color:       #cacaca !default;
+$grey-color-light: lighten($grey-color, 40%) !default;
+$grey-color-dark:  darken($grey-color, 25%) !default;
+
 $text-color:       #111 !default;
 $background-color: #fdfdfd !default;
 $brand-color:      #2a7ae2 !default;
-
-$grey-color:       #828282 !default;
-$grey-color-light: lighten($grey-color, 40%) !default;
-$grey-color-dark:  darken($grey-color, 25%) !default;
+$link-visited-color: darken($brand-color, 15%) !default;
+$link-hover-color:   $grey-color-dark !default;
 
 $table-text-align: left !default;
 
@@ -58,7 +60,7 @@ $on-laptop:        800px !default;
 
 .sans-serif-text {
   font-family: $base-font-family;
-  letter-spacing: -.25px;
+  letter-spacing: -.1px;
 }
 
 // Import partials.

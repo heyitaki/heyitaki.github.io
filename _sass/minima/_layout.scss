@@ -34,9 +34,9 @@
 }
 
 .post-link {
-  display: block;
   @extend .sans-serif-text;
   @include relative-font-size(1.25);
+  display: block;
 }
 
 
@@ -59,13 +59,13 @@
 }
 
 .post-header .post-meta {
+  @extend .sans-serif-text;
   @include relative-font-size(1);
-  letter-spacing: -.25px;
 }
 
 .post-content {
-  margin-bottom: $spacing-unit;
   @extend .serif-text;
+  margin-bottom: $spacing-unit;
 
   h2 {
     @include relative-font-size(2);
