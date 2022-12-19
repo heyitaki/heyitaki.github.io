@@ -11,11 +11,11 @@ permalink: /writing
   {%- for post in posts -%}
   <li>
     <span class="post-meta">{{ post.date | date: date_format }}</span>
-    <h3>
+    <h1>
       <a class="post-link" href="{{ post.url | relative_url }}">
         {{ post.title | escape }}
       </a>
-    </h3>
+    </h1>
     {%- if site.show_excerpts -%}
       {{ post.excerpt | truncatewords: 30 }}
     {%- endif -%}

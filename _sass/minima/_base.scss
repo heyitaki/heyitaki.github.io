@@ -34,11 +34,10 @@ body {
 /**
  * Set `margin-bottom` to maintain vertical rhythm
  */
-h1, h2, h3, h4, h5, h6,
 p, blockquote, pre,
 ul, ol, dl, figure,
 %vertical-rhythm {
-  margin-bottom: $spacing-unit / 2;
+  margin-bottom: $spacing-unit / 2; // 15px
 }
 
 
@@ -106,41 +105,51 @@ title {
 h1, h2, h3, h4, h5, h6 {
   @extend .sans-serif-text;
   font-weight: $base-font-weight;
+  margin-bottom: $spacing-unit / 3; // 10px
 }
 
 h1 {
-  @include relative-font-size(1.75);
-
-  @include media-query($on-laptop) {
-    @include relative-font-size(1.75);
-  }
-}
-
-h2 {
-  @include relative-font-size(1.5);
-
-  @include media-query($on-laptop) {
-    @include relative-font-size(1.5);
-  }
-}
-
-h3 {
-  @include relative-font-size(1.375);
+  @include relative-font-size(1.375); // 22px
 
   @include media-query($on-laptop) {
     @include relative-font-size(1.375);
   }
 }
 
-h4 {
+h2 {
+  @include relative-font-size(1.25); // 20px
+  color: $grey-color-dark;
+
+  @include media-query($on-laptop) {
+    @include relative-font-size(1.25);
+  }
+}
+
+h3 {
   @include relative-font-size(1);
+  color: $brand-color;
+  font-weight: bold;
+  text-transform: uppercase;
 
   @include media-query($on-laptop) {
     @include relative-font-size(1);
   }
 }
 
+h4 {
+  @include relative-font-size(.875); // 14px
+  font-weight: bold;
+  text-decoration-line: underline;
 
+  @include media-query($on-laptop) {
+    @include relative-font-size(.875);
+  }
+}
+
+// only add space between headings and paragraphs
+:not(h1, h2, h3, h4, h5, h6) + :where(h1, h2, h3, h4, h5, h6) {
+  margin-top: 27.5px;
+}
 
 /**
  * Links
