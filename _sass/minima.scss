@@ -15,11 +15,11 @@ $base-line-height: 1.5 !default;
 
 $spacing-unit:     30px !default;
 
-$grey-color:       #8a8a8a !default;
-$grey-color-light: #eaeaea !default;
+$grey-color:       rgb(116, 121, 126) !default;
+$grey-color-light: rgb(227, 230, 232) !default;
 $grey-color-dark:  darken($grey-color, 25%) !default;
 
-$text-color:       #111 !default;
+$text-color:       rgb(35, 38, 41) !default;
 $background-color: #fdfdfd !default;
 $brand-color:      #2a7ae2 !default;
 $link-visited-color: darken($brand-color, 15%) !default;
@@ -55,7 +55,6 @@ $on-laptop:        800px !default;
 .serif-text {
   font-size: 17px;
   line-height: 24px;
-  color: #000;
   font-family: source-serif-pro, serif;
   letter-spacing: .1px;
 }

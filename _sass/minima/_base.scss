@@ -117,11 +117,11 @@ h1 {
 }
 
 h2 {
-  @include relative-font-size(1.25); // 20px
-  color: $grey-color-dark;
+  @include relative-font-size(1.2);
+  color: $grey-color;
 
   @include media-query($on-laptop) {
-    @include relative-font-size(1.25);
+    @include relative-font-size(1.2);
   }
 }
 
@@ -206,12 +206,15 @@ pre,
 code {
   @include relative-font-size(0.9375);
   border: 1px solid $grey-color-light;
-  border-radius: 3px;
+  border-radius: 4px;
   background-color: $grey-color-light;
 }
 
 code {
-  padding: 1px 5px;
+  padding: 2px 4px;
+  margin: 0 1px;
+  letter-spacing: -.1px;;
+  font-size: 14px;
 }
 
 pre {
