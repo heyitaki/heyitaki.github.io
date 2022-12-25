@@ -22,7 +22,7 @@ title: Akshath Sivaprasad
 description: >- # this means to ignore newlines until "baseurl:"
   A simple personal website.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: https://akshath.me" # the base hostname & protocol for your site, e.g. http://example.com
+url: https://akshath.me # the base hostname & protocol for your site, e.g. http://example.com
 show_excerpts: true
 
 # Build settings
