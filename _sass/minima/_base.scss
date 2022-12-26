@@ -98,7 +98,7 @@ title {
   @include relative-font-size(1.6);
   line-height: 1;
   color: #000;
-  margin-bottom: 5px;
+  margin-bottom: 7.5px;
   display: block; // somehow is set to `display: none;` if not explicitly set
 }
 
@@ -149,35 +149,6 @@ h4 {
 // only add space between headings and paragraphs
 :not(h1, h2, h3, h4, h5, h6) + :where(h1, h2, h3, h4, h5, h6) {
   margin-top: 27.5px;
-}
-
-/**
- * Links
- */
-a {
-  color: $brand-color;
-  text-decoration: none;
-
-  &:hover {
-    color: $link-hover-color;
-  }
-}
-
-.home-content a,
-.post-content a {
-  color: black;
-  position: relative;
-  background: linear-gradient(var(--color, #fff01f), var(--color, #fff01f)) bottom repeat-x;
-  background-size: 100% 8px;
-  transition: all .3s, padding-bottom .2s;
-  padding: 2px 3px;
-  padding-bottom: 0px;
-  border-radius: 1px;
-
-  &:hover {
-    padding-bottom: 2px;
-    background-size: 100% 100%;
-  }
 }
 
 

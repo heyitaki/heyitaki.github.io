@@ -1,0 +1,39 @@
+a {
+  color: $brand-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $link-hover-color;
+  }
+}
+
+.home-content a,
+.post-content a {
+  color: black;
+  position: relative;
+  background: linear-gradient(var(--color, #fff01f), var(--color, #fff01f)) bottom repeat-x;
+  background-size: 100% 8px;
+  transition: background-size .3s, padding-bottom .2s;
+  padding: 2px 3px;
+  padding-bottom: 0px;
+  border-radius: 1px;
+
+  &:hover {
+    padding-bottom: 2px;
+    background-size: 100% 100%;
+    filter: brightness(1.123);
+  }
+}
+
+:not(.img-links) > a[target="_blank"]:after {
+  display: inline-block;
+  content: '';
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  background-color: currentcolor;
+  -webkit-mask: url('/assets/images/arrow.svg') no-repeat 50% 50%;
+  mask: url('/assets/images/arrow.svg') no-repeat 50% 50%;
+  margin: -0.3em -0.2em -0.24em -0.05em;
+  width: 1.1em;
+  height: 1.1em;
+}
