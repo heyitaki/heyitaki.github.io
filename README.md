@@ -2,4 +2,4 @@
 
 v4 of my personal website
 
-run with `bundle exec jekyll serve`
+run with `bundle exec jekyll serve --livereload`
