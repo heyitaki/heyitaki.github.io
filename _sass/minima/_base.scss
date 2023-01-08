@@ -69,7 +69,11 @@ figure > img {
 }
 
 figcaption {
-  font-size: $small-font-size;
+  color: $grey-color;
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.4em;
+  margin-top: 7.5px;
 }
 
 
@@ -82,10 +86,23 @@ ul, ol {
 }
 
 li {
+  margin-bottom: 5px;
+
   > ul,
   > ol {
     margin-bottom: 0;
   }
+
+  &::marker {
+    @extend .sans-serif-text;
+    color: $brand-color;
+    font-size: 14px;
+    font-weight: bold;
+  }
+}
+
+ol > li {
+  padding-left: 5px;
 }
 
 
