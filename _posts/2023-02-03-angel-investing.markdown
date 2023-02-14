@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Angel investing protocol
+title: Angel investing
 date: 2023-02-05 00:00:00 -0800
 excerpt: <p>A protocol for those just starting to angel invest in their mid to late 20s, with net worth around $500K.</p>
 permalink: /protocols/:title
@@ -45,3 +45,5 @@ Having an outsized impact as an angel investor will help secure additional oppor
 # Investment
 
 Depending on the extent of your value add, you can explore additional vectors of the investment including allocation amount, MFN status, anti-dilution rights (pro rata or ratchet), or if your involvement is pivotal to the startup's success, perhaps an advisory role and corresponding amount of equity. Of these, it's most important to protect your investment against dilution.
+
+<a href="/writing" style="--color: #bbb;"><span style="font-size: 14px; padding: 0 5px 0 1px;">✍️</span>Back to Writing</a>
