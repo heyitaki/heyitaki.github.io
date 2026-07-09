@@ -1,1 +1,36 @@
 <link rel="icon" href="/assets/images/icon.png" />
+
+<script>
+  // Theme handling. Default is automatic (follows prefers-color-scheme via CSS); a manual
+  // choice is stored in localStorage and applied as data-theme on <html>, which the dark
+  // stylesheet honors. Clicking the surprised-pikachu image toggles the manual override.
+  (function () {
+    var root = document.documentElement;
+
+    // Apply any saved preference before first paint to avoid a flash of the wrong theme.
+    var saved = localStorage.getItem("theme");
+    if (saved === "dark" || saved === "light") {
+      root.setAttribute("data-theme", saved);
+    }
+
+    function prefersDark() {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    function isDark() {
+      var t = root.getAttribute("data-theme");
+      return t ? t === "dark" : prefersDark();
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var pika = document.querySelector('img[alt="surprised pikachu"]');
+      if (!pika) return;
+      pika.style.cursor = "pointer";
+      pika.title = "Toggle dark mode";
+      pika.addEventListener("click", function () {
+        var next = isDark() ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+      });
+    });
+  })();
+</script>

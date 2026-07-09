@@ -56,6 +56,10 @@
 
 .links .img-links a.twitter img {
   width: 23px;
+  // The Twitter bird grayscales lighter (lum ~0.49) than the black GitHub / blue
+  // LinkedIn logos, so it reads too light in the row; darken it to match. Placed before
+  // the :hover rule so hovering still restores full color. (dark.scss has the mirror.)
+  filter: grayscale(1) brightness(0.7);
 }
 
 .links .img-links a.github img {
