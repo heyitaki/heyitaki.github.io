@@ -25,12 +25,14 @@ $d-surface:   #24262c; // code + highlight background
 $d-border:    #33363d; // borders
 $d-brand:     #6cb0ff; // links, h3, list markers
 
-// Per-link underline accent for dark mode: take each link's inline --color, keep its
-// hue, BOOST saturation, and drop lightness — darker than the light-mode pastel but still
-// vibrant (mixing toward black just desaturates into mud). Derived from the single --color
-// each link already sets, so a new link needs no second color. Quoted + interpolated so
-// dart-sass emits the relative-color syntax verbatim instead of trying to evaluate hsl().
-$d-underline: "hsl(from var(--color, #eadc17) h calc(s * 1.5) 44%)";
+// Per-link underline accent for dark mode: take each link's inline --color, keep its hue
+// AND its (already ~85-90%) saturation, and just drop the lightness. Darker than the
+// light-mode pastel but still vibrant — mixing toward black desaturates into mud, while
+// boosting saturation extrapolates past 100% into out-of-gamut neon; keeping natural
+// saturation lands in-gamut and rich. Derived from the single --color each link sets, so
+// a new link needs no second color. Quoted + interpolated so dart-sass emits the
+// relative-color syntax verbatim instead of trying to evaluate hsl().
+$d-underline: "hsl(from var(--color, #eadc17) h s 44%)";
 
 @mixin dark-theme {
   body {
