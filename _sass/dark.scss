@@ -1,0 +1,112 @@
+// Dark theme.
+//
+// Activates automatically when the OS/browser reports `prefers-color-scheme: dark`
+// — no toggle, no JS, no flash of the wrong theme. This file re-declares the small
+// set of minima selectors that carry a hard-coded light color; it is imported LAST
+// in assets/main.scss so source order wins (equal specificity to the base rules).
+//
+// Values are literal hex on purpose: minima's `lighten()/darken()` calls are already
+// deprecated under dart-sass, so we avoid adding more of them here.
+
+// Tell the browser we support both schemes so native UI (scrollbars, form controls,
+// the pikachu-less bits) adapts too. Unconditional — `light dark` picks per preference.
+:root { color-scheme: light dark; }
+
+// ---- Palette ---------------------------------------------------------------
+$d-bg:        #17181c; // page background
+$d-text:      #dfe1e4; // primary text
+$d-grey:      #9aa0a6; // secondary text (meta, captions, h2)
+$d-grey-emph: #c7cbd1; // hover / active emphasis
+$d-surface:   #24262c; // code + highlight background
+$d-border:    #33363d; // borders
+$d-brand:     #6cb0ff; // links, h3, list markers
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: $d-text;
+    background-color: $d-bg;
+  }
+
+  // Site-name heading in the header is a <title> element (base styles it #000).
+  title { color: $d-text; }
+
+  // Secondary / muted text.
+  figcaption,
+  h2,
+  blockquote,
+  .post-meta,
+  .links,
+  .links .text-links a { color: $d-grey; }
+
+  blockquote { border-left-color: $d-border; }
+
+  // Brand accents.
+  a,
+  h3 { color: $d-brand; }
+  li::marker { color: $d-brand; }
+
+  // Emphasis (hover / current nav item) reads lighter than base text on dark.
+  a:hover,
+  .links .text-links a:hover,
+  .links .text-links .active-link { color: $d-grey-emph; }
+
+  // The signature underline-highlight links: light text on the dark page, then dark
+  // text once the highlight fills the background on hover (keeps contrast on the fill).
+  .home-content a,
+  .post-content a {
+    color: #f4f4f5;
+    &:hover { color: $d-bg; }
+  }
+
+  // Inline code and code blocks.
+  pre,
+  code {
+    background-color: $d-surface;
+    border-color: $d-border;
+  }
+  .highlight,
+  .highlighter-rouge .highlight { background: $d-surface; }
+
+  // Tables.
+  table {
+    color: $d-text;
+    border-color: $d-border;
+    tr:nth-child(even) { background-color: #1d1f24; }
+    th {
+      background-color: #212329;
+      border-color: $d-border;
+      border-bottom-color: $d-border;
+    }
+    td { border-color: $d-border; }
+  }
+
+  // Social icons are grayscaled dark logos (invisible on a dark page); invert to light.
+  .links .img-links a img { filter: grayscale(1) invert(1); }
+  .links .img-links a img:hover { filter: grayscale(1) invert(1); opacity: 1; }
+
+  // Syntax highlighting — the base theme is GitHub-light (dark tokens), unreadable on a
+  // dark block. Repaint with a GitHub-dark-style palette. Font-weight/style from the base
+  // rules still apply; we only override color here.
+  .highlight {
+    color: $d-text;
+
+    .c, .cm, .c1, .cs, .cp { color: #8b949e; }            // comments
+    .k, .kc, .kd, .kn, .kp, .kr, .kt,
+    .o, .ow { color: #ff7b72; }                            // keywords, types, operators
+    .s, .sb, .sc, .sd, .s2, .se, .sh,
+    .si, .sx, .s1, .dl { color: #a5d6ff; }                 // strings
+    .sr { color: #7ee787; }                                // regex
+    .ss { color: #d2a8ff; }                                // symbols
+    .m, .mf, .mh, .mi, .mo, .il { color: #79c0ff; }        // numbers
+    .na, .nb, .bp, .no,
+    .nv, .vc, .vg, .vi { color: #79c0ff; }                 // attrs, builtins, vars, constants
+    .nf, .ne, .fm { color: #d2a8ff; }                      // functions
+    .nc, .nn { color: #f2cc60; }                           // classes, namespaces
+    .nt { color: #7ee787; }                                // tags
+    .ni { color: #ffa657; }                                // entities
+    .err { color: #f85149; background-color: transparent; }
+    .gi { color: #7ee787; background-color: rgba(46, 160, 67, 0.15); }   // diff added
+    .gd { color: #ff7b72; background-color: rgba(248, 81, 73, 0.15); }   // diff removed
+    .w  { color: #484f58; }                                // whitespace
+  }
+}
