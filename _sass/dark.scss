@@ -95,8 +95,9 @@ $d-underline: "hsl(from var(--color, #eadc17) h calc(s * 1.5) 44%)";
   // On hover restore the true brand colors, matching light mode — except GitHub, whose
   // logo is solid black and would vanish on dark, so invert it to white instead.
   .links .img-links a img { filter: grayscale(1) invert(1); }
-  // Twitter inverts darker than the others here (mirror of the light-mode tweak); lift it.
-  .links .img-links a.twitter img { filter: grayscale(1) invert(1) brightness(1.3); }
+  // Twitter inverts darker than the others here (mirror of the light-mode tweak); lift it
+  // a touch above parity so it reads as bright as the solid GitHub/LinkedIn marks.
+  .links .img-links a.twitter img { filter: grayscale(1) invert(1) brightness(1.55); }
   .links .img-links a img:hover { filter: none; }
   .links .img-links a.github img:hover { filter: invert(1); }
 
