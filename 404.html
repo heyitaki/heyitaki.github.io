@@ -4,23 +4,293 @@ layout: default
 ---
 
 <style type="text/css" media="screen">
-  .container {
-    margin: 10px auto;
-    max-width: 600px;
-    text-align: center;
+  /* A playful 404 rendered as a shell. The terminal card is always dark (a terminal is a
+     terminal), so it reads intentionally on both light- and dark-themed pages. All colors
+     are literal — this page is self-contained and never touches the site's Sass. */
+  .term {
+    max-width: 540px;
+    margin: 3vh auto 0;
+    border: 1px solid #33363d;
+    border-radius: 9px;
+    overflow: hidden;
+    background: #1b1d23;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco,
+      "Cascadia Code", Consolas, monospace;
+    cursor: text;
   }
 
-  h1 {
-    margin: 30px 0;
-    font-size: 4em;
-    line-height: 1;
-    letter-spacing: -1px;
+  .term-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #24262c;
+    border-bottom: 1px solid #33363d;
+  }
+  .term-dots {
+    display: flex;
+    gap: 7px;
+  }
+  .term-dots i {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #3a3d44;
+  }
+  .term-dots i:nth-child(1) { background: #ff5f57; }
+  .term-dots i:nth-child(2) { background: #febc2e; }
+  .term-dots i:nth-child(3) { background: #28c840; }
+  .term-title {
+    flex: 1;
+    text-align: center;
+    margin-right: 40px; /* offset the dots so the title sits truly centered */
+    font-size: 12px;
+    color: #8b949e;
+    letter-spacing: 0.2px;
+  }
+
+  .term-body {
+    padding: 15px 17px 17px;
+    max-height: 62vh;
+    overflow-y: auto;
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: #dfe1e4;
+  }
+
+  .term-line { white-space: pre-wrap; word-break: break-word; }
+  .term-dim  { color: #8b949e; }
+  .term-err  { color: #ff7b72; }
+
+  /* oh-my-zsh style prompt */
+  .p-arrow { color: #7ee787; }
+  .p-path  { color: #79c0ff; }
+
+  .term-body a {
+    color: #6cb0ff;
+    text-decoration: none;
+  }
+  .term-body a:hover { text-decoration: underline; }
+
+  .term-input-line {
+    display: flex;
+    align-items: baseline;
+  }
+  .term-input {
+    flex: 1;
+    min-width: 0;
+    margin-left: 8px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: #dfe1e4;
+    caret-color: #7ee787;
+    font: inherit;
+    outline: none;
   }
 </style>
 
-<div class="container">
-  <h1>404</h1>
-
-  <p><strong>Page not found :(</strong></p>
-  <p>The requested page could not be found.</p>
+<div class="term" id="term">
+  <div class="term-bar">
+    <span class="term-dots"><i></i><i></i><i></i></span>
+    <span class="term-title">zsh — 404: not found</span>
+  </div>
+  <div class="term-body" id="term-body">
+    <div id="term-log"></div>
+    <div class="term-line term-input-line" id="term-prompt" hidden>
+      <span class="term-prompt"><span class="p-arrow">➜</span> <span class="p-path">~</span></span>
+      <input
+        id="term-input"
+        class="term-input"
+        type="text"
+        autocomplete="off"
+        autocapitalize="off"
+        autocorrect="off"
+        spellcheck="false"
+        aria-label="terminal input"
+      />
+    </div>
+  </div>
 </div>
+
+<script>
+  (function () {
+    var term = document.getElementById("term");
+    var body = document.getElementById("term-body");
+    var log = document.getElementById("term-log");
+    var promptLine = document.getElementById("term-prompt");
+    var input = document.getElementById("term-input");
+
+    // The real missing path (GitHub Pages keeps the requested URL on a 404). Fall back to a
+    // gag path when someone opens /404 directly. Only ever rendered via textContent — never
+    // interpolated into HTML — so a hostile URL can't inject anything.
+    var badPath = "/the-page-you-were-looking-for";
+    try {
+      var p = decodeURIComponent(location.pathname);
+      // Skip the fallback when opened from disk — pathname would be a local file path, not a URL.
+      if (location.protocol !== "file:" && p && p !== "/404" && p !== "/404.html" && p !== "/") {
+        badPath = p;
+      }
+    } catch (e) {}
+
+    function scrollDown() { body.scrollTop = body.scrollHeight; }
+
+    // Append a line built from DOM nodes / safe HTML. `text` is inserted as textContent when
+    // provided; pass `html` only for trusted static markup (links, prompt).
+    function line(opts) {
+      var el = document.createElement("div");
+      el.className = "term-line" + (opts.cls ? " " + opts.cls : "");
+      if (opts.html != null) el.innerHTML = opts.html;
+      else el.textContent = opts.text || "";
+      log.appendChild(el);
+      scrollDown();
+      return el;
+    }
+
+    var PROMPT = '<span class="p-arrow">➜</span> <span class="p-path">~</span>';
+
+    // Echo a command back into the scrollback with its prompt.
+    function echo(cmd) {
+      var el = document.createElement("div");
+      el.className = "term-line";
+      el.innerHTML = PROMPT + " ";
+      var c = document.createElement("span");
+      c.textContent = cmd;
+      el.appendChild(c);
+      log.appendChild(el);
+    }
+
+    var pages = {
+      about: "/",
+      writing: "/writing",
+      home: "/",
+      "~": "/"
+    };
+
+    // Resolve a site-absolute path ("/", "/writing") to something that works whether this page
+    // is served over http(s) or opened straight from disk. On file:// a bare "/" points at the
+    // filesystem root, not the site, so resolve against this page's own directory, where the
+    // built pages (index.html, writing.html) sit beside it. No-op when served.
+    function siteUrl(path) {
+      if (location.protocol !== "file:") return path;
+      var dir = location.href.replace(/[#?].*$/, "").replace(/[^/]*$/, "");
+      if (path === "/") return dir + "index.html";
+      return dir + path.replace(/^\/+|\/+$/g, "") + ".html";
+    }
+
+    function go(path) { window.location.href = siteUrl(path); }
+
+    var commands = {
+      ls: function () {
+        line({
+          html:
+            '<a href="' + siteUrl("/") + '">about/</a>&nbsp;&nbsp;&nbsp;' +
+            '<a href="' + siteUrl("/writing") + '">writing/</a>&nbsp;&nbsp;&nbsp;' +
+            '<a href="https://twitter.com/heyitaki" target="_blank" rel="noopener">twitter@</a>'
+        });
+      },
+      cd: function (args) {
+        var target = (args[0] || "~").replace(/^\/+|\/+$/g, "").toLowerCase();
+        if (target === "" || target === "~" || target === "..") return go("/");
+        if (pages.hasOwnProperty(target)) return go(pages[target]);
+        line({ cls: "term-err", text: "cd: no such file or directory: " + args[0] });
+      },
+      help: function () {
+        line({
+          html:
+            '<span class="term-dim">available commands:</span>\n' +
+            '  <span class="p-arrow">ls</span>          list what\'s here\n' +
+            '  <span class="p-arrow">cd</span> &lt;page&gt;   go somewhere (try <span class="p-path">cd ~</span>)\n' +
+            '  <span class="p-arrow">whoami</span>      who are you\n' +
+            '  <span class="p-arrow">clear</span>       wipe the screen'
+        });
+      },
+      whoami: function () { line({ text: "a slightly lost visitor" }); },
+      pwd: function () { line({ text: badPath }); },
+      sudo: function () { line({ cls: "term-dim", text: "nice try." }); },
+      exit: function () { go("/"); },
+      clear: function () { log.innerHTML = ""; }
+    };
+
+    // Command history (↑ / ↓), the way any self-respecting shell behaves.
+    var cmdHistory = [];
+    var histIdx = 0;
+
+    function run(raw) {
+      var cmd = raw.trim();
+      echo(cmd);
+      if (cmd) {
+        cmdHistory.push(cmd);
+        histIdx = cmdHistory.length;
+        var parts = cmd.split(/\s+/);
+        var name = parts[0].toLowerCase();
+        if (commands.hasOwnProperty(name)) commands[name](parts.slice(1));
+        else line({ cls: "term-err", text: "zsh: command not found: " + parts[0] });
+      }
+      scrollDown();
+    }
+
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        run(input.value);
+        input.value = "";
+      } else if (e.key === "ArrowUp") {
+        if (histIdx > 0) { histIdx--; input.value = cmdHistory[histIdx]; }
+        e.preventDefault();
+      } else if (e.key === "ArrowDown") {
+        if (histIdx < cmdHistory.length - 1) { histIdx++; input.value = cmdHistory[histIdx]; }
+        else { histIdx = cmdHistory.length; input.value = ""; }
+        e.preventDefault();
+      }
+    });
+
+    // Clicking anywhere in the terminal focuses the prompt (unless clicking a link or
+    // making a real text selection).
+    term.addEventListener("click", function (e) {
+      if (e.target.tagName === "A") return;
+      if (!String(window.getSelection())) input.focus();
+    });
+
+    // ---- Intro: type out the doomed `cd`, show the error, then hand over the prompt -------
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function showError() {
+      line({ cls: "term-err", text: "cd: no such file or directory: " + badPath });
+      line({
+        cls: "term-dim",
+        text: "lost? type 'ls' to look around, or 'cd ~' to head home."
+      });
+      // Announce command output to screen readers, but only now — enabling this earlier
+      // would make the intro typewriter read out letter-by-letter.
+      log.setAttribute("aria-live", "polite");
+      promptLine.hidden = false;
+      input.focus();
+      scrollDown();
+    }
+
+    var cdCmd = "cd " + badPath;
+    if (reduce) {
+      echo(cdCmd);
+      showError();
+    } else {
+      var el = document.createElement("div");
+      el.className = "term-line";
+      el.innerHTML = PROMPT + " ";
+      var typed = document.createElement("span");
+      el.appendChild(typed);
+      log.appendChild(el);
+      var i = 0;
+      (function typeStep() {
+        if (i <= cdCmd.length) {
+          typed.textContent = cdCmd.slice(0, i);
+          i++;
+          scrollDown();
+          setTimeout(typeStep, 45);
+        } else {
+          setTimeout(showError, 260);
+        }
+      })();
+    }
+  })();
+</script>
