@@ -4,7 +4,7 @@ name: Deploy Jekyll site to Pages
 
 on:
   push:
-    branches: ["master"]
+    branches: ["main"]
   workflow_dispatch:
 
 # Permissions required for the deploy-pages action to publish via OIDC.
