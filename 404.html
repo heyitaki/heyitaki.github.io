@@ -8,7 +8,10 @@ layout: default
      terminal), so it reads intentionally on both light- and dark-themed pages. All colors
      are literal — this page is self-contained and never touches the site's Sass. */
   .term {
-    max-width: 540px;
+    /* Definite width, not max-width: the shrink-to-fit .page-content would otherwise let the
+       terminal track its content and resize on every command. Viewport-based, not %, to avoid
+       depending on that parent's width. */
+    width: min(540px, calc(100vw - 40px));
     margin: 3vh auto 0;
     border: 1px solid #33363d;
     border-radius: 9px;
