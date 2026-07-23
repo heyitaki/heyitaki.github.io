@@ -62,6 +62,12 @@ jobs:
         run: |
           mkdir -p _site/unsettled
           cp -r unsettled-src/dist/. _site/unsettled/
+          # Serve the app at /unsettled with no trailing slash. Pages only 301s
+          # /foo -> /foo/ when foo/index.html exists, but serves foo.html directly
+          # at /foo. So move the entry HTML up to _site/unsettled.html; assets stay
+          # under /unsettled/ and resolve via their absolute refs. (/unsettled/ with
+          # a slash then 404s to the site's 404 page — no index.html lives there.)
+          mv _site/unsettled/index.html _site/unsettled.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
 
