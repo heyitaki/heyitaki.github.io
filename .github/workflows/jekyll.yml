@@ -6,6 +6,10 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+  # The unsettled app repo pings this (via its notify-site.yml) whenever it
+  # pushes to main, so the site rebuilds with the latest app — no submodule.
+  repository_dispatch:
+    types: ["unsettled-update"]
 
 # Permissions required for the deploy-pages action to publish via OIDC.
 permissions:
@@ -36,6 +40,28 @@ jobs:
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
+      # Build the offline Catan app from its own repo at deploy time and drop it
+      # into _site/unsettled. Pulling main directly means no submodule pointer to
+      # bump; served as static files (Pages runs no Jekyll on the artifact).
+      - name: Checkout unsettled app
+        uses: actions/checkout@v7
+        with:
+          repository: heyitaki/unsettled
+          ref: main
+          path: unsettled-src
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: unsettled-src/package-lock.json
+      - name: Build unsettled
+        run: npm ci && npm run build
+        working-directory: unsettled-src
+      - name: Copy unsettled into site
+        run: |
+          mkdir -p _site/unsettled
+          cp -r unsettled-src/dist/. _site/unsettled/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
 
