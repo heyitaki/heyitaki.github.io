@@ -27,6 +27,8 @@ show_excerpts: true
 
 # Build settings
 theme: minima
+# `jekyll serve` only: rebuild on change is always on; this also refreshes the browser.
+livereload: true
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
