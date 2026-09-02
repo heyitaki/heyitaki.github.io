@@ -1,64 +1,26 @@
 ---
-layout: default
+layout: home
 title: Cataclysm
 permalink: /cataclysm
 description: Cataclysm fixes the mouse for League of Legends on macOS. Free download, first-launch walkthrough, and what it sends home.
 ---
 
 <style type="text/css" media="screen">
-  /* Self-contained page styles, scoped under .cataclysm so nothing leaks into the rest of
-     the site. Literal colors on purpose: this page never touches the site's Sass, and the
-     dark rules mirror _sass/dark.scss (follow the OS unless the pikachu toggle forced a
-     theme). Screenshots for the walkthrough go under assets/cataclysm/ and replace the
-     "screenshot:" comments below. */
-  .cataclysm { font-size: 17px; line-height: 1.5; }
-  .cataclysm h1 { margin-top: 0; }
-  .cataclysm h2 { margin-top: 2em; }
-  .cataclysm ol li, .cataclysm ul li { margin-bottom: 0.4em; }
-  .cataclysm .download { margin: 1em 0; }
-  .cataclysm .download-button {
-    display: inline-block;
-    padding: 0.7em 1.4em;
-    border-radius: 8px;
-    background: #2a7ae2;
-    color: #fff;
-    font-weight: 600;
-    text-decoration: none;
-  }
-  .cataclysm .download-button:hover { color: #fff; background: #1f63bd; }
-  .cataclysm .download-meta { display: block; margin-top: 0.5em; color: rgb(116, 121, 126); }
-  .cataclysm .warning {
-    padding: 0.8em 1em;
-    border-left: 4px solid #2a7ae2;
-    background: rgba(42, 122, 226, 0.08);
-    border-radius: 0 6px 6px 0;
-  }
-  .cataclysm details {
-    margin: 1em 0;
-    padding: 0.6em 1em;
-    border: 1px solid rgb(227, 230, 232);
-    border-radius: 6px;
-  }
-  .cataclysm details summary { cursor: pointer; font-weight: 600; }
-  .cataclysm details[open] summary { margin-bottom: 0.5em; }
-  .cataclysm dl dt { font-weight: 600; margin-top: 0.6em; }
-  .cataclysm dl dd { margin-left: 0; }
-  .cataclysm .repo { margin-top: 3em; color: rgb(116, 121, 126); }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .cataclysm .download-button { background: #6cb0ff; color: #17181c; }
-    :root:not([data-theme="light"]) .cataclysm .download-button:hover { background: #8ec2ff; color: #17181c; }
-    :root:not([data-theme="light"]) .cataclysm .warning { border-left-color: #6cb0ff; background: rgba(108, 176, 255, 0.1); }
-    :root:not([data-theme="light"]) .cataclysm details { border-color: #33363d; }
-    :root:not([data-theme="light"]) .cataclysm .download-meta, :root:not([data-theme="light"]) .cataclysm .repo { color: #9aa0a6; }
-  }
-  :root[data-theme="dark"] .cataclysm .download-button { background: #6cb0ff; color: #17181c; }
-  :root[data-theme="dark"] .cataclysm .download-button:hover { background: #8ec2ff; color: #17181c; }
-  :root[data-theme="dark"] .cataclysm .warning { border-left-color: #6cb0ff; background: rgba(108, 176, 255, 0.1); }
-  :root[data-theme="dark"] .cataclysm details { border-color: #33363d; }
-  :root[data-theme="dark"] .cataclysm .download-meta, :root[data-theme="dark"] .cataclysm .repo { color: #9aa0a6; }
+  /* Everything visual comes from the site's own stylesheet (home layout, .home-content
+     serif text, highlight links, minima headings, blockquote, dark theme). These rules
+     only add the spacing and the two elements the theme has no styling for. Screenshots
+     for the walkthrough go under assets/cataclysm/ and replace the "screenshot:" comments. */
+  .cataclysm h1 { margin-bottom: 15px; }
+  .cataclysm h2 { margin-top: 35px; }
+  .cataclysm .download { font-size: 19px; }
+  .cataclysm details { margin: 15px 0; }
+  .cataclysm details summary { cursor: pointer; }
+  .cataclysm details > p { margin-top: 10px; }
+  .cataclysm ol li, .cataclysm ul li { margin-bottom: 8px; }
+  .cataclysm .repo { margin-top: 50px; }
 </style>
 
-<div class="cataclysm" markdown="1">
+<div class="home-content cataclysm" markdown="1">
 
 # Cataclysm
 
@@ -66,12 +28,11 @@ Cataclysm is a menu bar app that fixes the mouse for League of Legends on macOS.
 
 ## Download
 
-<p class="download">
-  <a class="download-button" href="/cataclysm/download?src=page">Download Cataclysm for Mac</a>
-  <span class="download-meta">macOS 13 or later, Apple silicon and Intel</span>
-</p>
+<p class="download"><a style="--color: #82bdf5" href="/cataclysm/download?src=page">Download Cataclysm for Mac</a></p>
 
-<p class="warning">macOS will warn you on first launch because Cataclysm is not enrolled in Apple's paid developer program, not because anything was detected in the app; clearing it takes one trip to System Settings, walked through below.</p>
+<p class="post-meta">macOS 13 or later, Apple silicon and Intel.</p>
+
+> macOS will warn you on first launch because Cataclysm is not enrolled in Apple's paid developer program, not because anything was detected in the app. Clearing it takes one trip to System Settings, walked through below.
 
 ## First launch
 
@@ -112,12 +73,12 @@ Once a day, Cataclysm sends one small heartbeat to `akshath.me/cataclysm/ping` s
 - `enabled`: whether the app is switched on
 - `jailEnabled`: whether the cursor lock is switched on
 
-It deliberately does not send the name of the game or any other app, and the receiving server does not store your IP address. The heartbeat is on by default. To turn it off, open the dropdown and switch off "Send anonymous usage stats" on the main page, under "Launch at login". "Reset to defaults" under Advanced turns it back on along with every other setting. The server side is the `worker/` directory of the source repository, so you can read exactly what is stored.
+It deliberately does not send the name of the game or any other app, and the receiving server does not store your IP address. The heartbeat is on by default. To turn it off, open the dropdown and switch off "Send anonymous usage stats" on the main page, under "Launch at login". "Reset to defaults" under Advanced turns it back on along with every other setting. The server side is the <a style="--color: #d4d4d4" href="https://github.com/heyitaki/cataclysm/tree/main/worker" target="_blank">worker directory</a> of the source repository, so you can read exactly what is stored.
 
 ## Uninstall
 
 Open the dropdown, turn off "Launch at login", and click "Quit Cataclysm"; quitting restores your mouse acceleration and reconnects the cursor. Then drag Cataclysm from Applications to the Trash and remove any leftover Cataclysm entry under System Settings > General > Login Items.
 
-<p class="repo">Cataclysm is open source under the MIT license: <a href="https://github.com/heyitaki/cataclysm">github.com/heyitaki/cataclysm</a>.</p>
+<p class="repo">Cataclysm is open source under the MIT license: <a style="--color: #d4d4d4" href="https://github.com/heyitaki/cataclysm" target="_blank">github.com/heyitaki/cataclysm</a>.</p>
 
 </div>
