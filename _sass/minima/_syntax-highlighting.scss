@@ -1,3 +1,6 @@
+@use "settings" as *;
+@use "base"; // for %vertical-rhythm
+
 /**
  * Syntax highlighting styles
  */

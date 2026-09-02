@@ -1,3 +1,6 @@
+@use "sass:math";
+@use "minima/settings" as *;
+
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +9,7 @@
 .links {
   // this should be 1 to match with post meta but looks smaller otherwise
   @include relative-font-size(1.05);
-  margin-bottom: $spacing-unit / 2;
+  margin-bottom: math.div($spacing-unit, 2);
   display: flex;
   flex-direction: row;
   color: $grey-color;

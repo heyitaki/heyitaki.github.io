@@ -7,8 +7,8 @@
 // The dark rules live in a mixin so the two contexts share one definition. Imported last
 // in assets/main.scss; the :root[...] prefixes also raise specificity over the base rules.
 //
-// Values are literal hex on purpose: minima's `lighten()/darken()` calls are already
-// deprecated under dart-sass, so we avoid adding more of them here.
+// Values are literal hex: the dark palette is hand-picked rather than derived from the
+// light one with color functions.
 
 // Declare scheme support so native UI (scrollbars, form controls) matches. Follows the
 // system by default, then pins to the forced theme when the user toggles.

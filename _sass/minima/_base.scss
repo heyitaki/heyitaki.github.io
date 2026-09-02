@@ -1,3 +1,7 @@
+@use "sass:color";
+@use "sass:math";
+@use "settings" as *;
+
 /**
  * Reset some basic elements
  */
@@ -37,7 +41,7 @@ body {
 p, blockquote, pre,
 ul, ol, dl, figure,
 %vertical-rhythm {
-  margin-bottom: $spacing-unit / 2; // 15px
+  margin-bottom: math.div($spacing-unit, 2); // 15px
 }
 
 
@@ -122,7 +126,7 @@ title {
 h1, h2, h3, h4, h5, h6 {
   @extend .sans-serif-text;
   font-weight: $base-font-weight;
-  margin-bottom: $spacing-unit / 3; // 10px
+  margin-bottom: math.div($spacing-unit, 3); // 10px
 }
 
 h1 {
@@ -176,7 +180,7 @@ h4 {
 blockquote {
   color: $grey-color;
   border-left: 4px solid $grey-color-light;
-  padding-left: $spacing-unit / 2;
+  padding-left: math.div($spacing-unit, 2);
   @include relative-font-size(1.125);
   letter-spacing: -1px;
   font-style: italic;
@@ -226,21 +230,21 @@ table {
   margin-bottom: $spacing-unit;
   width: 100%;
   text-align: $table-text-align;
-  color: lighten($text-color, 18%);
+  color: color.adjust($text-color, $lightness: 18%);
   border-collapse: collapse;
   border: 1px solid $grey-color-light;
   tr {
     &:nth-child(even) {
-      background-color: lighten($grey-color-light, 6%);
+      background-color: color.adjust($grey-color-light, $lightness: 6%);
     }
   }
   th, td {
-    padding: ($spacing-unit / 3) ($spacing-unit / 2);
+    padding: math.div($spacing-unit, 3) math.div($spacing-unit, 2);
   }
   th {
-    background-color: lighten($grey-color-light, 3%);
-    border: 1px solid darken($grey-color-light, 4%);
-    border-bottom-color: darken($grey-color-light, 12%);
+    background-color: color.adjust($grey-color-light, $lightness: 3%);
+    border: 1px solid color.adjust($grey-color-light, $lightness: -4%);
+    border-bottom-color: color.adjust($grey-color-light, $lightness: -12%);
   }
   td {
     border: 1px solid $grey-color-light;
