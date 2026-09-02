@@ -1,16 +1,19 @@
 ---
-layout: home
+layout: default
 title: Cataclysm
 permalink: /cataclysm
 description: Cataclysm fixes the mouse for League of Legends on macOS. Free download, first-launch walkthrough, and what it sends home.
 ---
 
 <style type="text/css" media="screen">
-  /* Everything visual comes from the site's own stylesheet (home layout, .home-content
-     serif text, highlight links, minima headings, blockquote, dark theme). These rules
-     only add the spacing and the two elements the theme has no styling for. Screenshots
-     for the walkthrough go under assets/cataclysm/ and replace the "screenshot:" comments. */
-  .cataclysm h1 { margin-bottom: 15px; }
+  /* Everything visual comes from the site's own stylesheet (.home-content serif text,
+     highlight links, minima headings, blockquote, dark theme). No site header: the page
+     title takes its place, styled like the site name (the `title` rule in minima/_base),
+     and the dark colour is body text, which the dark theme already sets. Screenshots for
+     the walkthrough go under assets/cataclysm/ and replace the "screenshot:" comments. */
+  .cataclysm h1 { font-size: 25.6px; line-height: 1; color: #000; margin-bottom: 25px; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cataclysm h1 { color: inherit; } }
+  :root[data-theme="dark"] .cataclysm h1 { color: inherit; }
   .cataclysm h2 { margin-top: 35px; }
   .cataclysm .download { font-size: 19px; }
   .cataclysm details { margin: 15px 0; }

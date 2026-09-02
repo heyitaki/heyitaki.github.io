@@ -5,11 +5,8 @@
       {%- if page.title == "Writing" -%}
       <a href="/">About</a>
       <div class="active-link">Writing</div>
-      {%- elsif page.url == "/" -%}
-      <div class="active-link">About</div>
-      <a href="/writing">Writing</a>
       {%- else -%}
-      <a href="/">About</a>
+      <div class="active-link">About</div>
       <a href="/writing">Writing</a>
       {%- endif -%}
     </div>
