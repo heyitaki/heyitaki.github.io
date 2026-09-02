@@ -2,86 +2,81 @@
 layout: default
 title: Cataclysm
 permalink: /cataclysm
-description: Cataclysm fixes the mouse for League of Legends on macOS. Free download, first-launch walkthrough, and what it sends home.
+description: Cataclysm fixes the mouse for League of Legends on macOS. Free download and first-launch walkthrough.
 ---
 
 <style type="text/css" media="screen">
-  /* Everything visual comes from the site's own stylesheet (.home-content serif text,
-     highlight links, minima headings, blockquote, dark theme). No site header: the page
-     title takes its place, styled like the site name (the `title` rule in minima/_base),
-     and the dark colour is body text, which the dark theme already sets. Screenshots for
-     the walkthrough go under assets/cataclysm/ and replace the "screenshot:" comments. */
+  /* Text, headings, links, blockquote and the dark theme come from the site stylesheet.
+     Local rules: the page title styled like the site name (minima's `title` rule), the
+     download button in the theme's brand colours ($brand-color light, $d-brand dark), and
+     spacing. Screenshots for the walkthrough go under assets/cataclysm/ and replace the
+     "screenshot:" comments. */
   .cataclysm h1 { font-size: 25.6px; line-height: 1; color: #000; margin-bottom: 25px; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cataclysm h1 { color: inherit; } }
-  :root[data-theme="dark"] .cataclysm h1 { color: inherit; }
   .cataclysm h2 { margin-top: 35px; }
-  .cataclysm .download { font-size: 19px; }
+  .cataclysm ol li, .cataclysm ul li { margin-bottom: 8px; }
   .cataclysm details { margin: 15px 0; }
   .cataclysm details summary { cursor: pointer; }
   .cataclysm details > p { margin-top: 10px; }
-  .cataclysm ol li, .cataclysm ul li { margin-bottom: 8px; }
-  .cataclysm .repo { margin-top: 50px; }
+  .cataclysm .download { margin: 20px 0 8px; }
+  .cataclysm .download-button {
+    display: inline-block;
+    padding: 9px 18px;
+    border-radius: 6px;
+    background: #2a7ae2;
+    color: #fff;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -.1px;
+    text-decoration: none;
+  }
+  .cataclysm .download-button:hover { background: #1f63bd; color: #fff; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .cataclysm h1 { color: inherit; }
+    :root:not([data-theme="light"]) .cataclysm .download-button { background: #6cb0ff; color: #17181c; }
+    :root:not([data-theme="light"]) .cataclysm .download-button:hover { background: #8ec2ff; color: #17181c; }
+  }
+  :root[data-theme="dark"] .cataclysm h1 { color: inherit; }
+  :root[data-theme="dark"] .cataclysm .download-button { background: #6cb0ff; color: #17181c; }
+  :root[data-theme="dark"] .cataclysm .download-button:hover { background: #8ec2ff; color: #17181c; }
 </style>
 
 <div class="home-content cataclysm" markdown="1">
 
 # Cataclysm
 
-Cataclysm is a menu bar app that fixes the mouse for League of Legends on macOS. Playing League in a window on a Mac, three things are wrong out of the box: the cursor slips off the game window, so an edge flick mid-fight opens a context menu on the desktop instead of moving the camera; the pointer accelerates, so the same hand motion moves the cursor a different distance depending on how fast you made it; and the scroll wheel zooms the wrong way. Cataclysm keeps the cursor inside the game window while the game is frontmost, removes the acceleration and flips the scroll direction, with sensible defaults the moment you grant it one permission.
+A menu bar app that fixes the mouse for League of Legends on macOS: the cursor stays inside the game window, pointer acceleration is off, and the scroll wheel zooms the right way. Free and <a style="--color: #d4d4d4" href="https://github.com/heyitaki/cataclysm" target="_blank">open source</a>.
 
-## Download
-
-<p class="download"><a style="--color: #82bdf5" href="/cataclysm/download?src=page">Download Cataclysm for Mac</a></p>
+<p class="download"><a class="download-button" href="/cataclysm/download?src=page">Download for Mac</a></p>
 
 <p class="post-meta">macOS 13 or later, Apple silicon and Intel.</p>
 
-> macOS will warn you on first launch because Cataclysm is not enrolled in Apple's paid developer program, not because anything was detected in the app. Clearing it takes one trip to System Settings, walked through below.
-
 ## First launch
 
-Open the downloaded image, drag Cataclysm onto the Applications shortcut next to it, eject the image, and open Cataclysm from Applications. macOS refuses that first launch: it cannot check Cataclysm against Apple's records, so the warning only says Apple has not looked at it. You go through these four steps once per Mac, and after that Cataclysm opens like any other app. The screenshots were captured on macOS 26; macOS 15 shows the same dialogs.
+macOS blocks the first launch because Cataclysm is not in Apple's paid developer program. Nothing was detected; it just has not been checked. Once per Mac:
 
-1. The dialog "Cataclysm" Not Opened appears, saying Apple could not verify it is free of malware. Click **Done**.
+1. Drag Cataclysm to Applications and open it. On the "Cataclysm" Not Opened dialog, click **Done**.
    <!-- screenshot: not-opened.png -->
-2. Open System Settings, go to Privacy & Security, and scroll down to Security. A line says Cataclysm was blocked. Click **Open Anyway**.
+2. System Settings > Privacy & Security > scroll to Security > **Open Anyway**.
    <!-- screenshot: privacy-security-open-anyway.png -->
-3. A dialog titled Open "Cataclysm"? appears with Move to Trash, Open Anyway and Done. Click **Open Anyway**.
+3. Click **Open Anyway** again, then enter your password.
    <!-- screenshot: open-anyway-dialog.png -->
-4. Enter an administrator name and password.
-   <!-- screenshot: administrator-prompt.png -->
-
-Cataclysm launches and never asks again on this Mac.
+4. Grant Accessibility when Cataclysm asks. It needs it to see mouse events.
+   <!-- screenshot: accessibility.png -->
 
 <details>
   <summary>On macOS 13 or 14</summary>
-  <p>The route is shorter: right-click (or Control-click) Cataclysm in Applications, choose Open, then click Open again in the dialog.</p>
+  <p>Right-click Cataclysm in Applications, choose Open, then Open again.</p>
 </details>
 
-## Step two: Accessibility
+Everything is in the menu bar dropdown. ⌥⌘L toggles the cursor lock, even in game.
 
-On first run Cataclysm asks for the Accessibility permission and walks you through granting it in System Settings > Privacy & Security > Accessibility. It needs Accessibility to see mouse events; nothing works until it is granted.
-<!-- screenshot: accessibility.png -->
+## Privacy
 
-Then look for the Cataclysm icon in the menu bar. The dropdown has the on/off switches, the application picker and a scroll speed slider; the rest is under Advanced. Press ⌥⌘L to toggle the cursor lock at any time, even while the game has focus.
-
-## What it sends
-
-Once a day, Cataclysm sends one small heartbeat to `akshath.me/cataclysm/ping` so I can see how many installs are alive and whether they keep working. It contains exactly these fields and nothing else:
-
-- `install`: a random install id, generated once and stored in the app's preferences
-- `created`: the date the install id was generated
-- `version`: the app version
-- `macos`: the macOS version
-- `arch`: the CPU architecture, `arm64` or `x86_64`
-- `enabled`: whether the app is switched on
-- `jailEnabled`: whether the cursor lock is switched on
-
-It deliberately does not send the name of the game or any other app, and the receiving server does not store your IP address. The heartbeat is on by default. To turn it off, open the dropdown and switch off "Send anonymous usage stats" on the main page, under "Launch at login". "Reset to defaults" under Advanced turns it back on along with every other setting. The server side is the <a style="--color: #d4d4d4" href="https://github.com/heyitaki/cataclysm/tree/main/worker" target="_blank">worker directory</a> of the source repository, so you can read exactly what is stored.
+Once a day the app sends an anonymous heartbeat (random install id, install date, app and macOS version, CPU architecture, whether it is on). No game name, no IP stored. Switch it off under "Send anonymous usage stats" in the dropdown.
 
 ## Uninstall
 
-Open the dropdown, turn off "Launch at login", and click "Quit Cataclysm"; quitting restores your mouse acceleration and reconnects the cursor. Then drag Cataclysm from Applications to the Trash and remove any leftover Cataclysm entry under System Settings > General > Login Items.
-
-<p class="repo">Cataclysm is open source under the MIT license: <a style="--color: #d4d4d4" href="https://github.com/heyitaki/cataclysm" target="_blank">github.com/heyitaki/cataclysm</a>.</p>
+Turn off "Launch at login", quit from the dropdown, drag Cataclysm to the Trash.
 
 </div>
