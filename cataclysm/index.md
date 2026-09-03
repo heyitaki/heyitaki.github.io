@@ -13,6 +13,11 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
      spacing. Screenshots for the walkthrough go under assets/cataclysm/ and replace the
      "screenshot:" comments. */
   .cataclysm { --gold: #b9782a; --gold-deep: #a4671f; --gold-ink: #fff6e3; }
+  /* Back link above the title, styled like the site nav's text links (grey Inter, darker on
+     hover). It sits outside .home-content so the underline-highlight link style skips it. */
+  .cataclysm-back { font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: -.1px; font-size: 15px; margin-bottom: 18px; }
+  .cataclysm-back a { color: rgb(116, 121, 126); }
+  .cataclysm-back a:hover { color: rgb(51, 56, 60); }
   .cataclysm h1 { font-size: 25.6px; line-height: 1; color: #000; margin-bottom: 25px; }
   .cataclysm h2 { margin-top: 35px; }
   /* The theme sets no font on code. Monospace fonts draw ⌥ and ⌘ undersized, so those two
@@ -57,6 +62,8 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) .cataclysm h1 { color: inherit; }
+    :root:not([data-theme="light"]) .cataclysm-back a { color: #9aa0a6; }
+    :root:not([data-theme="light"]) .cataclysm-back a:hover { color: #c7cbd1; }
     :root:not([data-theme="light"]) .cataclysm ol li::marker { color: var(--gold); }
     /* The dark theme restyles every .home-content link's background-image and colour with
        higher specificity than the button rule; restate the gradient here. */
@@ -67,6 +74,8 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
     }
   }
   :root[data-theme="dark"] .cataclysm h1 { color: inherit; }
+  :root[data-theme="dark"] .cataclysm-back a { color: #9aa0a6; }
+  :root[data-theme="dark"] .cataclysm-back a:hover { color: #c7cbd1; }
   :root[data-theme="dark"] .cataclysm ol li::marker { color: var(--gold); }
   :root[data-theme="dark"] .cataclysm .download-button {
     background-image: linear-gradient(180deg, var(--gold), var(--gold-deep));
@@ -74,6 +83,8 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   }
 </style>
+
+<p class="cataclysm-back"><a href="/">← Home</a></p>
 
 <div class="home-content cataclysm" markdown="1">
 
