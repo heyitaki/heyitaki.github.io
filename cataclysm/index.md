@@ -96,7 +96,7 @@ Cataclysm is a menu bar app that fixes mouse interactions for League of Legends 
 
 ## First launch
 
-macOS blocks the first launch because Cataclysm is not in Apple's paid developer program and I want to keep it free. Once per Mac:
+macOS blocks the first launch because Cataclysm is not in Apple's paid developer program (I want to keep it free). Once per Mac:
 
 1. Drag Cataclysm to Applications and open it. On the "Cataclysm" Not Opened dialog, click **Done**.
    <!-- screenshot: not-opened.png -->
