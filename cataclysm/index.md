@@ -2,58 +2,79 @@
 layout: default
 title: Cataclysm
 permalink: /cataclysm
-description: Cataclysm fixes the mouse for League of Legends on macOS. Free download and first-launch walkthrough.
+description: Cataclysm fixes the mouse for League of Legends and other games on macOS. Free download and first-launch walkthrough.
 ---
 
 <style type="text/css" media="screen">
-  /* Text, headings, links, blockquote and the dark theme come from the site stylesheet.
-     Local rules: the page title styled like the site name (minima's `title` rule), the
-     download button in the theme's brand colours ($brand-color light, $d-brand dark), and
+  /* Text, headings, links, and the dark theme come from the site stylesheet. Local rules,
+     all scoped under .cataclysm so the rest of the site keeps its blue: the page title
+     styled like the site name (minima's `title` rule), a gold accent after Jarvan IV's
+     ultimate (the app is named for it) on the download button and the step numbers, and
      spacing. Screenshots for the walkthrough go under assets/cataclysm/ and replace the
      "screenshot:" comments. */
+  .cataclysm { --gold: #e3a43a; --gold-deep: #b8731c; --gold-ink: #2b1a05; }
   .cataclysm h1 { font-size: 25.6px; line-height: 1; color: #000; margin-bottom: 25px; }
   .cataclysm h2 { margin-top: 35px; }
-  .cataclysm ol li, .cataclysm ul li { margin-bottom: 8px; }
-  .cataclysm details { margin: 15px 0; }
-  .cataclysm details summary { cursor: pointer; }
-  .cataclysm details > p { margin-top: 10px; }
-  .cataclysm .download { margin: 20px 0 8px; }
+  .cataclysm ol li { margin-bottom: 8px; }
+  .cataclysm ol li::marker { color: var(--gold-deep); font-family: Inter, -apple-system, sans-serif; }
+  .cataclysm .download { margin: 22px 0 0; }
   .cataclysm .download-button {
-    display: inline-block;
-    padding: 9px 18px;
-    border-radius: 6px;
-    background: #2a7ae2;
-    color: #fff;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 10px 22px 9px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #f3c25c 0%, var(--gold) 55%, var(--gold-deep) 100%);
+    background-size: 100% 100%;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 1px 2px rgba(80, 50, 0, 0.25);
+    color: var(--gold-ink);
     font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: -.1px;
+    line-height: 1.2;
     text-decoration: none;
+    transition: filter .15s, transform .15s;
   }
-  .cataclysm .download-button:hover { background: #1f63bd; color: #fff; }
+  .cataclysm .download-button:hover { color: var(--gold-ink); filter: brightness(1.06); transform: translateY(-1px); }
+  .cataclysm .download-button small {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0;
+    opacity: 0.75;
+  }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) .cataclysm h1 { color: inherit; }
-    :root:not([data-theme="light"]) .cataclysm .download-button { background: #6cb0ff; color: #17181c; }
-    :root:not([data-theme="light"]) .cataclysm .download-button:hover { background: #8ec2ff; color: #17181c; }
+    :root:not([data-theme="light"]) .cataclysm ol li::marker { color: var(--gold); }
+    /* The dark theme restyles every .home-content link's background-image and colour with
+       higher specificity than the button rule; restate the gradient here. */
+    :root:not([data-theme="light"]) .cataclysm .download-button {
+      background-image: linear-gradient(180deg, #f3c25c 0%, var(--gold) 55%, var(--gold-deep) 100%);
+      color: var(--gold-ink);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
   }
   :root[data-theme="dark"] .cataclysm h1 { color: inherit; }
-  :root[data-theme="dark"] .cataclysm .download-button { background: #6cb0ff; color: #17181c; }
-  :root[data-theme="dark"] .cataclysm .download-button:hover { background: #8ec2ff; color: #17181c; }
+  :root[data-theme="dark"] .cataclysm ol li::marker { color: var(--gold); }
+  :root[data-theme="dark"] .cataclysm .download-button {
+    background-image: linear-gradient(180deg, #f3c25c 0%, var(--gold) 55%, var(--gold-deep) 100%);
+    color: var(--gold-ink);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
 </style>
 
 <div class="home-content cataclysm" markdown="1">
 
 # Cataclysm
 
-A menu bar app that fixes the mouse for League of Legends on macOS: the cursor stays inside the game window, pointer acceleration is off, and the scroll wheel zooms the right way. Free and <a style="--color: #d4d4d4" href="https://github.com/heyitaki/cataclysm" target="_blank">open source</a>.
+Cataclysm is a menu bar app that fixes mouse interactions for League of Legends and other games on macOS. It locks the cursor to the game in windowed mode, disables pointer acceleration, and inverts scroll directions. Free and <a style="--color: #d4d4d4" href="https://github.com/heyitaki/cataclysm" target="_blank">open source</a>.
 
-<p class="download"><a class="download-button" href="/cataclysm/download?src=page">Download for Mac</a></p>
-
-<p class="post-meta">macOS 13 or later, Apple silicon and Intel.</p>
+<p class="download"><a class="download-button" href="/cataclysm/download?src=page">Download for Mac<small>macOS 13 or later · Apple silicon and Intel</small></a></p>
 
 ## First launch
 
-macOS blocks the first launch because Cataclysm is not in Apple's paid developer program. Nothing was detected; it just has not been checked. Once per Mac:
+macOS blocks the first launch because Cataclysm is not in Apple's paid developer program and I want to keep it free. Once per Mac:
 
 1. Drag Cataclysm to Applications and open it. On the "Cataclysm" Not Opened dialog, click **Done**.
    <!-- screenshot: not-opened.png -->
@@ -61,22 +82,13 @@ macOS blocks the first launch because Cataclysm is not in Apple's paid developer
    <!-- screenshot: privacy-security-open-anyway.png -->
 3. Click **Open Anyway** again, then enter your password.
    <!-- screenshot: open-anyway-dialog.png -->
-4. Grant Accessibility when Cataclysm asks. It needs it to see mouse events.
+4. Grant Accessibility when Cataclysm asks so that it is able to detect mouse events.
    <!-- screenshot: accessibility.png -->
 
-<details>
-  <summary>On macOS 13 or 14</summary>
-  <p>Right-click Cataclysm in Applications, choose Open, then Open again.</p>
-</details>
-
-Everything is in the menu bar dropdown. ⌥⌘L toggles the cursor lock, even in game.
-
-## Privacy
-
-Once a day the app sends an anonymous heartbeat (random install id, install date, app and macOS version, CPU architecture, whether it is on). No game name, no IP stored. Switch it off under "Send anonymous usage stats" in the dropdown.
+Everything is in the menu bar dropdown. `⌥⌘L` toggles the cursor lock, even in game.
 
 ## Uninstall
 
-Turn off "Launch at login", quit from the dropdown, drag Cataclysm to the Trash.
+Turn off "Launch at login", quit from the dropdown, and drag Cataclysm to the Trash.
 
 </div>
