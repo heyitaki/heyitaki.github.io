@@ -10,8 +10,9 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
      all scoped under .cataclysm so the rest of the site keeps its blue: the page title
      styled like the site name (minima's `title` rule), a gold accent after Jarvan IV's
      ultimate (the app is named for it) on the download button and the step numbers, and
-     spacing. Screenshots for the walkthrough go under assets/cataclysm/ and replace the
-     "screenshot:" comments. */
+     spacing. Screenshots live under assets/cataclysm/ and are 2x captures, so each is
+     shown at half its pixel width; the walkthrough ones replace the "screenshot:"
+     comments. */
   .cataclysm { --gold: #b9782a; --gold-deep: #a4671f; --gold-ink: #fff6e3; }
   /* Back link above the title, styled like the site nav's text links (grey Inter, darker on
      hover). It sits outside .home-content so the underline-highlight link style skips it. */
@@ -27,6 +28,7 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
   .cataclysm ol li { margin-bottom: 8px; }
   .cataclysm ol li::marker { color: var(--gold-deep); font-family: Inter, -apple-system, sans-serif; }
   .cataclysm .download { margin: 22px 0 0; }
+  .cataclysm .dropdown img { display: block; width: 320px; max-width: 100%; height: auto; }
   .cataclysm .download-button {
     display: inline-flex;
     flex-direction: column;
@@ -107,7 +109,11 @@ macOS blocks the first launch because Cataclysm is not in Apple's paid developer
 4. Grant Accessibility when Cataclysm asks so that it is able to detect mouse events.
    <!-- screenshot: accessibility.png -->
 
-Everything is in the menu bar dropdown. <code><span class="sym">⌥⌘</span>L</code> toggles the cursor lock, even in game.
+## Usage
+
+Everything is in the menu bar dropdown. Cursor lock is only enforced while the game is focused (so you can tab out), but if you need it, <code><span class="sym">⌥⌘</span>L</code> toggles the cursor lock even in-game.
+
+<p class="dropdown"><img src="/assets/cataclysm/dropdown.png" alt="Cataclysm's menu bar dropdown"></p>
 
 ## Uninstall
 
