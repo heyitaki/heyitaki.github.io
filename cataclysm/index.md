@@ -15,6 +15,10 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
   .cataclysm { --gold: #b9782a; --gold-deep: #a4671f; --gold-ink: #fff6e3; }
   .cataclysm h1 { font-size: 25.6px; line-height: 1; color: #000; margin-bottom: 25px; }
   .cataclysm h2 { margin-top: 35px; }
+  /* The theme sets no font on code. Monospace fonts draw ⌥ and ⌘ undersized, so those two
+     glyphs come from the system font inside the span. */
+  .cataclysm code { font-family: Menlo, "SF Mono", Consolas, "Liberation Mono", monospace; font-size: 14px; letter-spacing: .5px; padding: 2px 6px; }
+  .cataclysm code .sym { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 15px; }
   .cataclysm ol li { margin-bottom: 8px; }
   .cataclysm ol li::marker { color: var(--gold-deep); font-family: Inter, -apple-system, sans-serif; }
   .cataclysm .download { margin: 22px 0 0; }
@@ -92,7 +96,7 @@ macOS blocks the first launch because Cataclysm is not in Apple's paid developer
 4. Grant Accessibility when Cataclysm asks so that it is able to detect mouse events.
    <!-- screenshot: accessibility.png -->
 
-Everything is in the menu bar dropdown. `⌥⌘L` toggles the cursor lock, even in game.
+Everything is in the menu bar dropdown. <code><span class="sym">⌥⌘</span>L</code> toggles the cursor lock, even in game.
 
 ## Uninstall
 
