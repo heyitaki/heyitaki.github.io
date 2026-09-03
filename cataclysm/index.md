@@ -12,7 +12,7 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
      ultimate (the app is named for it) on the download button and the step numbers, and
      spacing. Screenshots for the walkthrough go under assets/cataclysm/ and replace the
      "screenshot:" comments. */
-  .cataclysm { --gold: #e3a43a; --gold-deep: #b8731c; --gold-ink: #2b1a05; }
+  .cataclysm { --gold: #c8852a; --gold-deep: #91581a; --gold-ink: #fff4dc; }
   .cataclysm h1 { font-size: 25.6px; line-height: 1; color: #000; margin-bottom: 25px; }
   .cataclysm h2 { margin-top: 35px; }
   .cataclysm ol li { margin-bottom: 8px; }
@@ -25,10 +25,11 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
     gap: 3px;
     padding: 10px 22px 9px;
     border-radius: 8px;
-    background: linear-gradient(180deg, #f3c25c 0%, var(--gold) 55%, var(--gold-deep) 100%);
+    background: linear-gradient(180deg, #d9993a 0%, var(--gold) 50%, var(--gold-deep) 100%);
     background-size: 100% 100%;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 1px 2px rgba(80, 50, 0, 0.25);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(80, 50, 0, 0.3);
     color: var(--gold-ink);
+    text-shadow: 0 1px 1px rgba(60, 35, 0, 0.35);
     font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 16px;
     font-weight: 600;
@@ -42,7 +43,7 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
     font-size: 11px;
     font-weight: 500;
     letter-spacing: 0;
-    opacity: 0.75;
+    opacity: 0.85;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) .cataclysm h1 { color: inherit; }
@@ -50,7 +51,7 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
     /* The dark theme restyles every .home-content link's background-image and colour with
        higher specificity than the button rule; restate the gradient here. */
     :root:not([data-theme="light"]) .cataclysm .download-button {
-      background-image: linear-gradient(180deg, #f3c25c 0%, var(--gold) 55%, var(--gold-deep) 100%);
+      background-image: linear-gradient(180deg, #d9993a 0%, var(--gold) 50%, var(--gold-deep) 100%);
       color: var(--gold-ink);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 3px rgba(0, 0, 0, 0.5);
     }
@@ -58,7 +59,7 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
   :root[data-theme="dark"] .cataclysm h1 { color: inherit; }
   :root[data-theme="dark"] .cataclysm ol li::marker { color: var(--gold); }
   :root[data-theme="dark"] .cataclysm .download-button {
-    background-image: linear-gradient(180deg, #f3c25c 0%, var(--gold) 55%, var(--gold-deep) 100%);
+    background-image: linear-gradient(180deg, #d9993a 0%, var(--gold) 50%, var(--gold-deep) 100%);
     color: var(--gold-ink);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 3px rgba(0, 0, 0, 0.5);
   }
@@ -70,7 +71,7 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
 
 Cataclysm is a menu bar app that fixes mouse interactions for League of Legends and other games on macOS. It locks the cursor to the game in windowed mode, disables pointer acceleration, and inverts scroll directions. Free and <a style="--color: #d4d4d4" href="https://github.com/heyitaki/cataclysm" target="_blank">open source</a>.
 
-<p class="download"><a class="download-button" href="/cataclysm/download?src=page">Download for Mac<small>macOS 13 or later · Apple silicon and Intel</small></a></p>
+<p class="download"><a class="download-button" href="/cataclysm/download?src=page">Download for Mac<small>macOS 13 or later</small></a></p>
 
 ## First launch
 
