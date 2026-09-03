@@ -12,7 +12,7 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
      ultimate (the app is named for it) on the download button and the step numbers, and
      spacing. Screenshots for the walkthrough go under assets/cataclysm/ and replace the
      "screenshot:" comments. */
-  .cataclysm { --gold: #c8852a; --gold-deep: #91581a; --gold-ink: #fff4dc; }
+  .cataclysm { --gold: #b9782a; --gold-deep: #a4671f; --gold-ink: #fff6e3; }
   .cataclysm h1 { font-size: 25.6px; line-height: 1; color: #000; margin-bottom: 25px; }
   .cataclysm h2 { margin-top: 35px; }
   .cataclysm ol li { margin-bottom: 8px; }
@@ -25,20 +25,26 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
     gap: 3px;
     padding: 10px 22px 9px;
     border-radius: 8px;
-    background: linear-gradient(180deg, #d9993a 0%, var(--gold) 50%, var(--gold-deep) 100%);
+    background: linear-gradient(180deg, var(--gold), var(--gold-deep));
     background-size: 100% 100%;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(80, 50, 0, 0.3);
+    box-shadow: 0 1px 2px rgba(60, 35, 0, 0.2);
     color: var(--gold-ink);
-    text-shadow: 0 1px 1px rgba(60, 35, 0, 0.35);
     font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 16px;
     font-weight: 600;
     letter-spacing: -.1px;
     line-height: 1.2;
     text-decoration: none;
-    transition: filter .15s, transform .15s;
+    transition: filter .15s;
   }
-  .cataclysm .download-button:hover { color: var(--gold-ink); filter: brightness(1.06); transform: translateY(-1px); }
+  /* The site's .home-content a:hover rule shrinks padding-bottom and swaps the background
+     size for its underline effect; restate both so the button keeps its shape. */
+  .cataclysm .download-button:hover {
+    padding-bottom: 9px;
+    background-size: 100% 100%;
+    color: var(--gold-ink);
+    filter: brightness(1.07);
+  }
   .cataclysm .download-button small {
     font-size: 11px;
     font-weight: 500;
@@ -51,17 +57,17 @@ description: Cataclysm fixes the mouse for League of Legends and other games on 
     /* The dark theme restyles every .home-content link's background-image and colour with
        higher specificity than the button rule; restate the gradient here. */
     :root:not([data-theme="light"]) .cataclysm .download-button {
-      background-image: linear-gradient(180deg, #d9993a 0%, var(--gold) 50%, var(--gold-deep) 100%);
+      background-image: linear-gradient(180deg, var(--gold), var(--gold-deep));
       color: var(--gold-ink);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 3px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     }
   }
   :root[data-theme="dark"] .cataclysm h1 { color: inherit; }
   :root[data-theme="dark"] .cataclysm ol li::marker { color: var(--gold); }
   :root[data-theme="dark"] .cataclysm .download-button {
-    background-image: linear-gradient(180deg, #d9993a 0%, var(--gold) 50%, var(--gold-deep) 100%);
+    background-image: linear-gradient(180deg, var(--gold), var(--gold-deep));
     color: var(--gold-ink);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 3px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   }
 </style>
 
