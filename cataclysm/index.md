@@ -117,6 +117,6 @@ Everything is in the menu bar dropdown. Cursor lock is only enforced while the g
 
 ## Uninstall
 
-Turn off "Launch at login", quit from the dropdown, and drag Cataclysm to the Trash.
+Uncheck "Launch at login" and quit from the dropdown, then move Cataclysm to Trash.
 
 </div>
