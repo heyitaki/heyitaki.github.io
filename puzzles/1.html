@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Happy birthday Ayush</title>
+<style>
+  :root { --tile: 3.2rem; --green: #2e9e5b; --blue: #3b6fd6; }
+  * { box-sizing: border-box; }
+  /* Fixed pane widths, and the leftover viewport split into equal gaps: two around the word chain alone,
+     three (edge, middle, edge) once the crossword is in. Every value is a length, so the shift animates. */
+  :root { --w1: 28rem; --w2: 34rem; }
+  body { margin: 0; min-height: 100vh; display: flex; justify-content: center; align-items: safe center; font-family: Georgia, serif; background: #faf8f3; color: #222; overflow-x: hidden;
+    padding: 0 calc((100vw - var(--w1)) / 2); gap: 0; transition: padding .9s ease, gap .9s ease; }
+  body.done { padding: 0 calc((100vw - var(--w1) - var(--w2)) / 3); gap: calc((100vw - var(--w1) - var(--w2)) / 3); }
+  .pane { flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 0; transition: width .9s ease, opacity .9s ease; }
+  #p1 { width: var(--w1); }
+  #p2 { width: 0; max-height: 0; opacity: 0; overflow: hidden; } /* max-height too, or its tall content stretches the page before it's shown */
+  body.done #p2 { width: var(--w2); max-height: none; opacity: 1; }
+  p { max-width: 28rem; text-align: center; line-height: 1.5; }
+  #p2 > p:first-child { max-width: var(--w2); }
+  #grid { display: flex; flex-direction: column; gap: .4rem; margin: 1.5rem 0; }
+  .row { display: flex; gap: .4rem; }
+  .tile { width: var(--tile); height: var(--tile); border: 2px solid #999; border-radius: .3rem; display: flex; align-items: center; justify-content: center; font: 700 1.5rem/1 sans-serif; cursor: pointer; user-select: none; background: #fff; }
+  .tile.given { background-color: #eee; }
+  /* Rebus: NYT-style diagonal split, first letter top-left, second bottom-right. */
+  .tile { position: relative; --line: #999; }
+  .tile.rebus { background-image: linear-gradient(to bottom right, transparent calc(50% - 1px), var(--line) calc(50% - 1px), var(--line) calc(50% + 1px), transparent calc(50% + 1px)); }
+  .tile.rebus::before, .tile.rebus::after { position: absolute; font-size: 1rem; }
+  .tile.rebus::before { content: attr(data-a); top: .35rem; left: .5rem; }
+  .tile.rebus::after { content: attr(data-b); bottom: .35rem; right: .5rem; }
+  .tile.cur { border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue) inset; }
+  .row.ok .tile { --line: var(--green); border-color: var(--green); box-shadow: none; cursor: default; }
+  .row.ok .tile.given { background-color: #e6f5eb; }
+  /* Crossword */
+  #xw { display: grid; grid-auto-columns: var(--xt); grid-auto-rows: var(--xt); gap: 2px; margin: 1rem 0 2rem; --xt: 2.1rem; }
+  .cell { position: relative; border: 2px solid #999; border-radius: 2px; background: #fff; display: flex; align-items: center; justify-content: center; font: 700 1.1rem/1 sans-serif; cursor: pointer; user-select: none; }
+  .cell::before { content: attr(data-n); position: absolute; top: 1px; left: 2px; font: 400 .55rem/1 sans-serif; color: #666; }
+  .cell.cur { border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue) inset; }
+  .cell.ok { border-color: var(--green); box-shadow: none; cursor: default; }
+  #clues { font-size: .85rem; line-height: 1.5; display: flex; gap: 2rem; max-width: 34rem; }
+  #clues > div { display: grid; grid-template-columns: auto 1fr; column-gap: .5rem; align-content: start; }
+  #clues > div > b:first-child { grid-column: 1 / -1; margin-bottom: .2rem; }
+  #clues > div > div { display: contents; }
+  #clues > div > div > b { text-align: right; }
+  #meta { display: flex; flex-direction: column; align-items: center; max-height: 0; opacity: 0; overflow: hidden; transition: max-height .9s ease, opacity .9s ease; }
+  #meta.show { max-height: 12rem; opacity: 1; }
+  #final { display: flex; gap: .4rem; margin-top: 2.5rem; }
+  #final .cell { width: var(--tile); height: var(--tile); font-size: 1.5rem; border-radius: .3rem; }
+</style>
+</head>
+<body>
+<div class="pane" id="p1">
+  <p>Happy birthday Ayush! Here’s to new faces, familiar voices, and one good thing leading to another.</p>
+  <div id="grid"></div>
+  <p>You may have been lost when we started and may err along the way but at the end of the day you’re worth holding onto, hooray!</p>
+</div>
+<div class="pane" id="p2">
+  <p>Happy birthday, Ayush (-Jen)! Here's to familiar faces and the little extra you bring to every gathering. May the days be kind, the company dear, and the last few words familiar to your ear.</p>
+  <div id="xw"></div>
+  <div id="clues"></div>
+  <div id="meta">
+    <div id="final"></div>
+    <p>Lose the old and keep the new, there’s something sweet hidden for you.</p>
+  </div>
+</div>
+<script>
+// Each row: given letters ('.' = blank tile) and a SHA-256 per answer word, the word linking to the row
+// above first (it is shown on top once solved). Rebus tiles hold two letters.
+// A row is solved when every word reads left to right taking at most one letter per tile and every
+// letter placed is used by some word, so any sensible rebus layout counts. Answers are never in this
+// file; make a hash with `node hash.mjs WORD` (same SALT as below).
+const SALT = 'ayush-bday-2026';
+const ROWS = [
+  ['LOST',   ['1941732ce73404012d62004220c521088ed6410e676b299b14b8a1bc19bf8cf6']],
+  ['S...',   ['7b8681e36ad6e6093d840a330824539eb719569a99aa36576ee7ded80b18195b', '0704ff83363c6ce2ba32d66e7b0f3f34f12e93f63d0e4483270b98209df02ef1']],
+  ['H...',   ['b6c0dd03365b8c6979d68f5d09aa6d200c644afc44e9bb25bc1311ecbcab5616', 'e113b08c6d5290c32095e36002d1982f7c65e6d47f3fc4cbec0a979326bde959']],
+  ['F...',   ['380e34d05f6f920042381aab3c59ff6286652bd2f156a281211db2514720f9b7', '9104e4596239072272e69a86906e32fa680776d898f6ecfeb0688e28406b3fe8']],
+  ['W....',  ['e186f7adee6d4d146548bae2b83fbed07b533a0965da5b716e1156e4c05d5e86', '6163f89f548b6bb9413f6e4abbd04f95ee7f15739759d204565b381ada2cf5b1']],
+  ['I..',    ['d703ae15dc75a1bd93f34e3d40a3b6b34ee2d3f2723ad8ed36fda16f7caca94b', 'dbd40ada21a5b0450ecd41dbd730127ba5128705811a7eb4782238ecf91a077f']],
+  ['K.....', ['026d940f4a466a690b46b4c14002e7d2592f0cbbb6d7d4c087d3b4b78759eb86']],
+];
+const KEY = 'ayush-bday';
+
+// typed[r][c] = letters the player added to a tile (given letters are fixed and live in ROWS).
+const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+const typed = ROWS.map(([g], r) => saved?.[r] ?? [...g].map(() => ''));
+const solved = ROWS.map(() => false);
+let cur = [0, 0];
+
+const given = (r, c) => ROWS[r][0][c].replace('.', '');
+// Auto-fill may store the whole tile (e.g. ' H': blank on top, given H below), so don't prefix the given letter twice.
+const text = (r, c) => typed[r][c].includes(given(r, c)) ? typed[r][c] : given(r, c) + typed[r][c];
+const sha = async s => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(SALT + s)))]
+  .map(b => b.toString(16).padStart(2, '0')).join('');
+
+const grid = document.getElementById('grid');
+const tiles = ROWS.map(([g], r) => {
+  const row = grid.appendChild(document.createElement('div'));
+  row.className = 'row';
+  return [...g].map((ch, c) => {
+    const t = row.appendChild(document.createElement('div'));
+    t.className = 'tile' + (ch === '.' ? '' : ' given');
+    t.onclick = () => { if (!solved[r]) { cur = [r, c]; render(); } };
+    return t;
+  });
+});
+
+function render() {
+  tiles.forEach((row, r) => {
+    row[0].parentNode.classList.toggle('ok', solved[r]);
+    row.forEach((t, c) => {
+      const s = text(r, c);
+      t.classList.toggle('rebus', s.length > 1);
+      t.textContent = s.length > 1 ? '' : s;
+      [t.dataset.a = '', t.dataset.b = ''] = s;
+      t.classList.toggle('cur', !solved[r] && cur[0] === r && cur[1] === c);
+    });
+  });
+  document.body.classList.toggle('done', solved.every(Boolean));
+}
+
+// Every way to read the row: one letter or none from each tile, in order. Each reading carries a
+// bitmask of the letters it used (bit = tile * 2 + position) so coverage can be checked.
+function readings(r) {
+  let out = [['', 0]];
+  tiles[r].forEach((_, c) => {
+    const opts = [...text(r, c)].map((ch, i) => ch === ' ' ? null : [ch, 1 << (c * 2 + i)]).filter(Boolean);
+    out = out.flatMap(([w, m]) => [...opts.map(([ch, b]) => [w + ch, m | b]), [w, m]]); // use-before-skip: blanks land late
+  });
+  return out;
+}
+
+async function check(r) {
+  if (tiles[r].some((_, c) => !text(r, c))) return;
+  const reads = readings(r);
+  const all = reads.reduce((m, [, b]) => m | b, 0);
+  const hashOf = new Map(await Promise.all([...new Set(reads.map(([w]) => w))].map(async w => [w, await sha(w)])));
+  const masks = ROWS[r][1].map(h => reads.filter(([w]) => hashOf.get(w) === h).map(([, m]) => m));
+  // One reading per word whose letters together cover every placed letter; null if none.
+  const pick = (i, m) => i === masks.length ? (m === all ? [] : null)
+    : masks[i].reduce((found, b) => found ?? (rest => rest && [b, ...rest])(pick(i + 1, m | b)), null);
+  const chosen = pick(0, 0); // one mask per word, in ROWS order
+  if (!chosen) return;
+  solved[r] = true;
+  // Display order follows the chain: the word that links to the row above (first in ROWS) goes on top and
+  // the one linking to the row below goes underneath, whatever order was typed. A letter only one word
+  // reads gets a blank other half. Hashing sorts letters, so reordering never breaks re-verification.
+  if (chosen.length === 2) tiles[r].forEach((_, c) => {
+    const s = text(r, c), side = chosen.map(m => [...s].find((_, i) => m & 1 << (c * 2 + i)) ?? ' ');
+    if (side[0] !== side[1]) typed[r][c] = side.join('');
+  });
+}
+
+function save() { localStorage.setItem(KEY, JSON.stringify(typed)); }
+
+// First unsolved row, at its first empty tile.
+function firstFree() {
+  const r = solved.indexOf(false);
+  if (r < 0) return cur;
+  const c = tiles[r].findIndex((_, c) => !text(r, c));
+  return [r, Math.max(c, 0)];
+}
+
+function nextRow(r, dir) {
+  for (let i = r + dir; i >= 0 && i < ROWS.length; i += dir) if (!solved[i]) return i;
+  return r;
+}
+
+document.addEventListener('keydown', async e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  let [r, c] = cur;
+  if (solved[r]) return;
+  const last = tiles[r].length - 1;
+  if (/^[a-z ]$/i.test(e.key)) {
+    if (e.key === ' ' && !text(r, c)) return; // a blank half only makes sense as a rebus
+    const cap = 2 - given(r, c).length;
+    const t = typed[r][c], ch = e.key.toUpperCase();
+    // Retyping the letter already in a single-letter tile just moves on instead of making a rebus.
+    if (text(r, c) !== ch) typed[r][c] = (t.length < cap ? t : t.slice(0, cap - 1)) + ch;
+    cur = [r, Math.min(c + 1, last)];
+  } else if (e.key === 'Backspace') {
+    if (!typed[r][c] && c > 0) c--;
+    typed[r][c] = typed[r][c].slice(0, -1);
+    cur = [r, c];
+  } else if (e.key === 'ArrowLeft') cur = [r, Math.max(c - 1, 0)];
+  else if (e.key === 'ArrowRight') cur = [r, Math.min(c + 1, last)];
+  else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+    r = nextRow(r, e.key === 'ArrowUp' ? -1 : 1);
+    cur = [r, Math.min(c, tiles[r].length - 1)];
+  } else return;
+  e.preventDefault();
+  e.stopImmediatePropagation(); // the crossword listener must not see the keystroke that finishes this puzzle
+  if (e.key.length === 1 || e.key === 'Backspace') {
+    await check(r);
+    save();
+    if (solved[r]) cur = firstFree();
+  }
+  render();
+});
+
+Promise.all(ROWS.map((_, r) => check(r))).then(() => { cur = firstFree(); render(); });
+
+// ---------------------------------------------------------------- Crossword
+// Words: [number, clue, row, col, down?, length, hash]. The final CLOSET row is just another word,
+// placed on an unused row so it shares all the typing/locking code but renders in its own box.
+const XW = [
+  [1, 'A long stakeout calls for a clean diaper. (4,6)',        0, 7, 1, 10, '7b0f455b6c2b3f0faff881a67e4962247492ec40cfe4d61e1bb85a4e7c202016'],
+  [2, 'Stripes cleared. Black straight in. (5,3)',              1, 0, 1, 8,  '37b03778b4ad7836ded7688e615a62a972ca164bbeb83d6a04ad6e90302afeac'],
+  [3, 'Time’s up, I overlooked the nearby clues. (4,1,4)',      4, 0, 0, 9,  '9e9287824a4a4cc749e35a2e29d66987a9610d0c1ce2504da01ce55dd5d6ef01'],
+  [4, 'Even masters bend one. Fetch a spare nail. (4,4)',       4, 2, 1, 8,  'd56b39e0afb76f19c2c0f10ef34d2cd6b016b8755f694041c510a88a1b9b9c21'],
+  [5, 'A chatbot accountant? Scary if they lie. (4,2,2)',       6, 0, 0, 8,  '5d0d586c6f5ec2e768fd66bec3decf137f12e5d4cea15d14b0ebee3428d32bbd'],
+  [6, 'Nobody jumps anymore when you shout, boss. (5,4)',       11, 1, 0, 9, '8342960075ba4ce764c01ca4eef95cbcbc23fea4ccad0f02d6028d7cd38c7293'],
+  [0, '',                                                        20, 0, 0, 6, '6d22bc5cddcfef267f1fe4679e508057e19a261668b1dddb1151e70764ae38d3'],
+];
+const XKEY = 'ayush-bday-xw';
+const letters = JSON.parse(localStorage.getItem(XKEY) || '{}'); // "r,c" -> letter
+const xsolved = XW.map(() => false);
+let xc = { r: XW[0][2], c: XW[0][3], d: XW[0][4] };
+
+const wordCells = XW.map(([, , r, c, d, n]) => Array.from({ length: n }, (_, i) => d ? `${r + i},${c}` : `${r},${c + i}`));
+const cells = {}; // "r,c" -> element
+const xwEl = document.getElementById('xw'), finalEl = document.getElementById('final'), cluesEl = document.getElementById('clues');
+const clueLists = ['Across', 'Down'].map(h => {
+  const col = cluesEl.appendChild(document.createElement('div'));
+  col.innerHTML = `<b>${h}</b>`;
+  return col;
+});
+XW.forEach(([n, clue, r, c, d], w) => {
+  wordCells[w].forEach((k, i) => {
+    if (cells[k]) return;
+    const el = (n ? xwEl : finalEl).appendChild(document.createElement('div'));
+    el.className = 'cell';
+    const [cr, cc] = k.split(',').map(Number);
+    el.style.gridArea = `${cr + 1} / ${cc + 1}`;
+    el.onclick = () => {
+      // Same cell again flips direction; otherwise keep the direction if this cell has a word that way.
+      const inDir = dir => wordsAt(k).some(w => XW[w][4] === dir);
+      xc = { r: cr, c: cc, d: xc.r === cr && xc.c === cc ? (inDir(1 - xc.d) ? 1 - xc.d : xc.d) : (inDir(xc.d) ? xc.d : 1 - xc.d) };
+      xrender();
+    };
+    cells[k] = el;
+  });
+  if (n) {
+    cells[wordCells[w][0]].dataset.n = n;
+    const li = clueLists[d].appendChild(document.createElement('div'));
+    li.innerHTML = `<b>${n}</b> ${clue}`;
+  }
+});
+const wordsAt = k => XW.map((_, w) => w).filter(w => wordCells[w].includes(k));
+const locked = k => wordsAt(k).some(w => xsolved[w]);
+
+function xrender() {
+  const curKey = `${xc.r},${xc.c}`;
+  document.getElementById('meta').classList.toggle('show', XW.every(([n], w) => !n || xsolved[w])); // final row waits for the grid
+  for (const [k, el] of Object.entries(cells)) {
+    el.textContent = letters[k] || '';
+    el.classList.toggle('ok', locked(k));
+    el.classList.toggle('cur', k === curKey);
+  }
+}
+
+async function xcheck(w) {
+  const word = wordCells[w].map(k => letters[k] || '').join('');
+  if (word.length === XW[w][5] && await sha(word) === XW[w][6]) xsolved[w] = true;
+}
+
+document.addEventListener('keydown', async e => {
+  if (!document.body.classList.contains('done') || e.metaKey || e.ctrlKey || e.altKey) return;
+  const cur = () => `${xc.r},${xc.c}`;
+  const step = (dr, dc) => { const n = `${xc.r + dr},${xc.c + dc}`; if (cells[n]) xc = { ...xc, r: xc.r + dr, c: xc.c + dc }; };
+  // Move along the current word to the next unlocked cell; stay put if there is none that way.
+  const along = dir => {
+    const k = cur(), w = wordsAt(k).find(w => XW[w][4] === xc.d);
+    const cs = w === undefined ? [k] : wordCells[w];
+    for (let i = cs.indexOf(k) + dir; i >= 0 && i < cs.length; i += dir) {
+      if (locked(cs[i])) continue;
+      const [r, c] = cs[i].split(',').map(Number);
+      xc = { ...xc, r, c };
+      return;
+    }
+  };
+  if (/^[a-z]$/i.test(e.key)) {
+    if (locked(cur())) along(1);
+    if (!locked(cur())) letters[cur()] = e.key.toUpperCase();
+    along(1);
+  } else if (e.key === 'Backspace') {
+    if (!locked(cur()) && letters[cur()]) delete letters[cur()];
+    else { along(-1); if (!locked(cur())) delete letters[cur()]; }
+  } else if (e.key === 'ArrowLeft') { step(0, -1); xc.d = 0; }
+  else if (e.key === 'ArrowRight') { step(0, 1); xc.d = 0; }
+  else if (e.key === 'ArrowUp') { step(-1, 0); xc.d = 1; }
+  else if (e.key === 'ArrowDown') { step(1, 0); xc.d = 1; }
+  else return;
+  e.preventDefault();
+  if (e.key.length === 1 || e.key === 'Backspace') {
+    const was = [...xsolved];
+    await Promise.all(XW.map((_, w) => xsolved[w] ? null : xcheck(w)));
+    localStorage.setItem(XKEY, JSON.stringify(letters));
+    const finished = xsolved.findIndex((v, w) => v && !was[w]);
+    if (finished >= 0) jumpAfter(finished);
+    if (!was.every(Boolean) && xsolved.every(Boolean)) confetti();
+  }
+  xrender();
+});
+
+// Cursor to the first open cell of the next unsolved word by number (the final row comes last).
+function jumpAfter(from) {
+  for (let i = 1; i < XW.length; i++) {
+    const w = (from + i) % XW.length, k = wordCells[w].find(k => !locked(k));
+    if (xsolved[w] || !k) continue;
+    const [r, c] = k.split(',').map(Number);
+    xc = { r, c, d: XW[w][4] };
+    return;
+  }
+}
+
+function confetti() {
+  const cv = document.body.appendChild(document.createElement('canvas'));
+  cv.style.cssText = 'position:fixed;inset:0;pointer-events:none';
+  const size = () => { cv.width = innerWidth; cv.height = innerHeight; };
+  size(); addEventListener('resize', size);
+  const ctx = cv.getContext('2d');
+  // Launched from both bottom corners; a piece that falls off the bottom is relaunched, so it never stops.
+  const launch = p => {
+    const left = Math.random() < .5;
+    p.x = left ? 0 : cv.width; p.y = cv.height + 20;
+    p.vx = (Math.random() * 30 + 8) * (left ? 1 : -1); p.vy = -(Math.random() * 30 + 18);
+    p.hue = Math.random() * 360; p.s = 4 + Math.random() ** 3 * 40; // mostly small, a few huge
+    p.a = Math.random() * 6; p.va = (Math.random() - .5) * .4;
+    return p;
+  };
+  const ps = Array.from({ length: 3000 }, () => launch({}));
+  ps.forEach(p => { p.y += Math.random() * cv.height; }); // stagger the first wave so it's a stream, not one clump
+  (function frame() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    for (const p of ps) {
+      p.x += p.vx; p.y += p.vy; p.vy += .45; p.vx *= .985; p.a += p.va;
+      if (p.vy > 0 && p.y > cv.height + 50) launch(p); // fell off the bottom
+      ctx.setTransform(Math.cos(p.a), Math.sin(p.a), -Math.sin(p.a), Math.cos(p.a), p.x, p.y);
+      ctx.fillStyle = `hsl(${p.hue} 90% 60%)`; ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2);
+    }
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    requestAnimationFrame(frame);
+  })();
+}
+
+Promise.all(XW.map((_, w) => xcheck(w))).then(() => { xrender(); if (xsolved.every(Boolean)) confetti(); });
+</script>
+</body>
+</html>

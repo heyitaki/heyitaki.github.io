@@ -2,11 +2,15 @@
   <title>Akshath Sivaprasad</title>
   <div class="links">
     <div class="text-links">
-      {%- if page.title == "Writing" -%}
+      {%- comment -%} The home page has no title; any titled page (Writing, Puzzles) is not About. {%- endcomment -%}
+      {%- if page.title -%}
       <a href="/">About</a>
-      <div class="active-link">Writing</div>
       {%- else -%}
       <div class="active-link">About</div>
+      {%- endif -%}
+      {%- if page.title == "Writing" -%}
+      <div class="active-link">Writing</div>
+      {%- else -%}
       <a href="/writing">Writing</a>
       {%- endif -%}
     </div>
