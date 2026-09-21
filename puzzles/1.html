@@ -14,7 +14,15 @@
     padding: 0 calc((100vw - var(--w1)) / 2); gap: 0; transition: padding .9s ease, gap .9s ease; }
   body.done { padding: 0 calc((100vw - var(--w1) - var(--w2)) / 3); gap: calc((100vw - var(--w1) - var(--w2)) / 3); }
   .pane { flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 0; transition: width .9s ease, opacity .9s ease; }
-  #p1 { width: var(--w1); }
+  #p0, #p1 { width: var(--w1); }
+  body.intro #p1, body:not(.intro) #p0 { display: none; } /* intro riddle first, then the word chain */
+  #p0 form { display: flex; flex-direction: column; align-items: center; gap: .8rem; margin-top: 1rem; }
+  #p0 input { width: 12rem; height: var(--tile); border: 2px solid #999; border-radius: .3rem; text-align: center; font: 700 1.5rem sans-serif; text-transform: uppercase; background: #fff; outline: none; }
+  #p0 input:focus { border-color: var(--blue); }
+  #p0 input.ok { border-color: var(--green); color: var(--green); }
+  #p0 input.bad { border-color: #c33; }
+  #p0 button { font: inherit; padding: .4rem 1.4rem; border: 2px solid #222; border-radius: .3rem; background: #fff; cursor: pointer; }
+  #p0 button:hover { background: #222; color: #fff; }
   #p2 { width: 0; max-height: 0; opacity: 0; overflow: hidden; } /* max-height too, or its tall content stretches the page before it's shown */
   body.done #p2 { width: var(--w2); max-height: none; opacity: 1; }
   p { max-width: 28rem; text-align: center; line-height: 1.5; }
@@ -50,6 +58,14 @@
 </style>
 </head>
 <body>
+<div class="pane" id="p0">
+  <p>Another year older is no reason to <b>wallow</b>. Save your dubs for this year (and the puzzles ahead!). This might seem like a word salad but try and think three steps ahead.</p>
+  <form id="intro">
+    <input id="answer" autocomplete="off" autocapitalize="characters" spellcheck="false">
+    <button id="check" type="submit">Check</button>
+    <button id="next" type="button" hidden>Next</button>
+  </form>
+</div>
 <div class="pane" id="p1">
   <p>Happy birthday Ayush! Here’s to new faces, familiar voices, and one good thing leading to another.</p>
   <div id="grid"></div>
@@ -168,7 +184,7 @@ function nextRow(r, dir) {
 }
 
 document.addEventListener('keydown', async e => {
-  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (document.body.classList.contains('intro') || e.metaKey || e.ctrlKey || e.altKey) return;
   let [r, c] = cur;
   if (solved[r]) return;
   const last = tiles[r].length - 1;
@@ -200,6 +216,35 @@ document.addEventListener('keydown', async e => {
 });
 
 Promise.all(ROWS.map((_, r) => check(r))).then(() => { cur = firstFree(); render(); });
+
+// ---------------------------------------------------------------- Intro riddle
+// Same hashing as the rows. Saved as {answer, next}: the answer is re-verified on load, and `next`
+// remembers that the Next button was pressed so a reload goes straight to the word chain.
+const INTRO_HASH = '913e5a34028581f3b2666f7051055aef9241390be17988aede680efd37748ad9';
+const IKEY = 'ayush-bday-intro';
+const intro = JSON.parse(localStorage.getItem(IKEY) || '{}');
+const answerEl = document.getElementById('answer'), nextEl = document.getElementById('next'), checkEl = document.getElementById('check');
+const introOk = async v => await sha(v.trim().toUpperCase()) === INTRO_HASH;
+function introSolved() {
+  answerEl.disabled = true;
+  answerEl.classList.add('ok');
+  checkEl.hidden = true;
+  nextEl.hidden = false;
+}
+document.getElementById('intro').onsubmit = async e => {
+  e.preventDefault();
+  if (await introOk(answerEl.value)) {
+    localStorage.setItem(IKEY, JSON.stringify({ answer: answerEl.value }));
+    introSolved();
+  } else answerEl.classList.add('bad');
+};
+answerEl.oninput = () => answerEl.classList.remove('bad');
+nextEl.onclick = () => {
+  localStorage.setItem(IKEY, JSON.stringify({ ...intro, answer: answerEl.value, next: true }));
+  document.body.classList.remove('intro');
+};
+document.body.classList.toggle('intro', !intro.next);
+if (intro.answer) introOk(intro.answer).then(ok => { if (ok) { answerEl.value = intro.answer; introSolved(); } });
 
 // ---------------------------------------------------------------- Crossword
 // Words: [number, clue, row, col, down?, length, hash]. The final CLOSET row is just another word,
