@@ -85,7 +85,7 @@
 // above first (it is shown on top once solved). Rebus tiles hold two letters.
 // A row is solved when every word reads left to right taking at most one letter per tile and every
 // letter placed is used by some word, so any sensible rebus layout counts. Answers are never in this
-// file; make a hash with `node hash.mjs WORD` (same SALT as below).
+// file; make one with `node -e "console.log(require('crypto').createHash('sha256').update('ayush-bday-2026WORD').digest('hex'))"`.
 const SALT = 'ayush-bday-2026';
 const ROWS = [
   ['LOST',   ['1941732ce73404012d62004220c521088ed6410e676b299b14b8a1bc19bf8cf6']],
