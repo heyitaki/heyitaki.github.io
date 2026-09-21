@@ -4,12 +4,10 @@ title: Puzzles
 permalink: /puzzles
 ---
 
-<ul class="post-list">
-  {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-  {%- for puzzle in site.data.puzzles -%}
-    <li>
-      <span class="post-meta">{{ puzzle.date | date: date_format }}</span>
-      <h1><a class="post-link" href="{{ puzzle.url }}">{{ puzzle.title | escape }}</a></h1>
-    </li>
-  {%- endfor -%}
-</ul>
+<div class="home-content">
+  <ul>
+    {%- for puzzle in site.data.puzzles -%}
+      <li>{{ puzzle.date | date: "%Y-%m-%d" }} <a href="{{ puzzle.url }}">{{ puzzle.title | escape }}</a></li>
+    {%- endfor -%}
+  </ul>
+</div>
