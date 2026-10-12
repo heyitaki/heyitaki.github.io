@@ -68,6 +68,10 @@ jobs:
           # under /unsettled/ and resolve via their absolute refs. (/unsettled/ with
           # a slash then 404s to the site's 404 page — no index.html lives there.)
           mv _site/unsettled/index.html _site/unsettled.html
+          # jekyll-sitemap ran before the app existed, so list its page by hand.
+          # grep fails the build if the entry did not land.
+          sed -i 's#</urlset>#<url>\n<loc>https://akshath.me/unsettled</loc>\n</url>\n</urlset>#' _site/sitemap.xml
+          grep -q '<loc>https://akshath.me/unsettled</loc>' _site/sitemap.xml
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
 
