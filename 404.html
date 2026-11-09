@@ -3,6 +3,19 @@ permalink: /404
 layout: default
 ---
 
+<script>
+  // Pages are served without a trailing slash (writing.html at /writing, unsettled.html at
+  // /unsettled), and GitHub Pages has no redirect config, so /writing/ lands here. Retry the
+  // path without the slash. If that page is missing too, the slashless 404 shows instead,
+  // so this cannot loop.
+  (function () {
+    var p = location.pathname;
+    if (location.protocol !== "file:" && /.\/+$/.test(p)) {
+      location.replace(p.replace(/\/+$/, "") + location.search + location.hash);
+    }
+  })();
+</script>
+
 <style type="text/css" media="screen">
   /* A playful 404 rendered as a shell. The terminal card is always dark (a terminal is a
      terminal), so it reads intentionally on both light- and dark-themed pages. All colors

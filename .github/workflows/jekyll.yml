@@ -66,7 +66,7 @@ jobs:
           # /foo -> /foo/ when foo/index.html exists, but serves foo.html directly
           # at /foo. So move the entry HTML up to _site/unsettled.html; assets stay
           # under /unsettled/ and resolve via their absolute refs. (/unsettled/ with
-          # a slash then 404s to the site's 404 page — no index.html lives there.)
+          # a slash lands on 404.html, which redirects to /unsettled.)
           mv _site/unsettled/index.html _site/unsettled.html
           # jekyll-sitemap ran before the app existed, so list its page by hand.
           # grep fails the build if the entry did not land.
