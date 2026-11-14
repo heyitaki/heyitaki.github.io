@@ -6,8 +6,8 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
-  # The unsettled app repo pings this (via its notify-site.yml) whenever it
-  # pushes to main, so the site rebuilds with the latest app — no submodule.
+  # The unsettled app repo pings this (via its dispatch-site.yml) after every
+  # green push run on main, so the site rebuilds with the latest app; no submodule.
   repository_dispatch:
     types: ["unsettled-update"]
 
@@ -40,15 +40,37 @@ jobs:
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
-      # Build the offline Catan app from its own repo at deploy time and drop it
-      # into _site/unsettled. Pulling main directly means no submodule pointer to
-      # bump; served as static files (Pages runs no Jekyll on the artifact).
+      # Build the offline Catan app and its iOS OTA bundle from the newest
+      # first-parent commit on unsettled main whose "Check and deploy" push run
+      # succeeded, and drop them into _site/unsettled and _site/unsettled-ota.
+      # Served as static files (Pages runs no Jekyll on the artifact).
+      - name: List green unsettled runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/heyitaki/unsettled/actions/workflows/notify-site.yml/runs?branch=main&event=push&status=success&per_page=100" \
+            --jq '.workflow_runs[].head_sha' > "$RUNNER_TEMP/unsettled-green-shas.txt"
+      # Full history and tags: the OTA label counts commits and minNativeBuild
+      # reads the store/ios/* tags; the publish script refuses a shallow or
+      # tagless clone.
       - name: Checkout unsettled app
         uses: actions/checkout@v7
         with:
           repository: heyitaki/unsettled
           ref: main
           path: unsettled-src
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Check out the newest green unsettled commit
+        working-directory: unsettled-src
+        run: |
+          sha=$(git rev-list --first-parent origin/main | grep -Fx -m1 -f "$RUNNER_TEMP/unsettled-green-shas.txt" || true)
+          if [ -z "$sha" ]; then
+            echo "::error::No first-parent commit on unsettled main has a successful Check and deploy push run"
+            exit 1
+          fi
+          echo "Publishing unsettled $sha"
+          git checkout --detach "$sha"
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -72,6 +94,13 @@ jobs:
           # grep fails the build if the entry did not land.
           sed -i 's#</urlset>#<url>\n<loc>https://akshath.me/unsettled</loc>\n</url>\n</urlset>#' _site/sitemap.xml
           grep -q '<loc>https://akshath.me/unsettled</loc>' _site/sitemap.xml
+      # Build, zip and encrypt the iOS OTA bundle and write its manifest to
+      # _site/unsettled-ota/ (bundles/<sha256>.zip, then ios.json last).
+      - name: Publish unsettled OTA bundle
+        working-directory: unsettled-src
+        env:
+          OTA_BUNDLE_PRIVATE_KEY: ${{ secrets.UNSETTLED_OTA_BUNDLE_KEY }}
+        run: node tools/ota/publish.mjs --out "$GITHUB_WORKSPACE/_site/unsettled-ota" --base-url https://akshath.me/unsettled-ota
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
 
